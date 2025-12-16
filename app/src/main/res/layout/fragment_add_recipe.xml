@@ -13,7 +13,7 @@
         android:layout_height="wrap_content"
         android:fontFamily="@font/quicksand_bold"
         android:text="Add Recipe"
-        android:textColor="@color/primaryUI"
+        android:textColor="#000000"
         android:textSize="60sp" />
 
     <TextView
