@@ -1,0 +1,117 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/bg_page"
+    android:orientation="vertical"
+    android:padding="15dp"
+    tools:context=".AddRecipeFragment">
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:fontFamily="@font/quicksand_bold"
+        android:text="Add Recipe"
+        android:textColor="@color/primaryUI"
+        android:textSize="60sp" />
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:fontFamily="@font/quicksand_regular"
+        android:text="You can upload your own recipe and share it with others!\nJust fill up all the fields and wait for the recipe to be approved!"
+        android:textColor="@color/primaryUI"
+        android:textSize="19sp" />
+
+    <EditText
+        android:id="@+id/addRecipeFragment_recipeName_et"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:background="@drawable/bg_card"
+        android:fontFamily="@font/quicksand_regular"
+        android:hint="Recipe Name"
+        android:padding="12dp"
+        android:textColor="@color/primaryUI"
+        android:textSize="20dp" />
+
+    <EditText
+        android:id="@+id/addRecipeFragment_recipeDescription_et"
+        android:layout_width="match_parent"
+        android:layout_height="100dp"
+        android:layout_marginTop="20dp"
+        android:background="@drawable/bg_card"
+        android:fontFamily="@font/quicksand_regular"
+        android:gravity="top"
+        android:hint="Recipe Description"
+        android:padding="12dp"
+        android:textColor="@color/primaryUI"
+        android:textSize="20dp" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:orientation="horizontal"
+        android:gravity="center"
+        android:background="@drawable/bg_card"
+        android:padding="12dp">
+
+    <ImageView
+        android:id="@+id/addRecipeFragment_recipeImage_iv"
+        android:layout_width="200dp"
+        android:layout_height="200dp"
+        android:src="@drawable/img_recipe_item_example"
+        android:layout_marginRight="50dp"/>
+
+    <ImageView
+        android:id="@+id/addRecipeFragment_takePicture_iv"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:src="@drawable/ic_take_picture"
+        android:clickable="true"/>
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:gravity="center"
+        android:orientation="horizontal"
+        android:background="@drawable/bg_card"
+        android:padding="12dp">
+
+        <android.widget.Button
+            android:id="@+id/addRecipeFragment_addRecipe_btn"
+            android:layout_width="0dp"
+            android:layout_height="48dp"
+            android:layout_weight="1"
+            android:background="@drawable/bg_button_submit"
+            android:text="Add Recipe"
+            android:textColor="@color/secondaryUI"
+            android:fontFamily="@font/quicksand_bold"/>
+
+
+        <android.widget.Button
+            android:id="@+id/addRecipeFragment_reset_btn"
+            android:layout_width="0dp"
+            android:layout_height="48dp"
+            android:layout_marginLeft="8dp"
+            android:layout_weight="1"
+            android:background="@drawable/bg_button_reset"
+            android:text="RESET"
+            android:textColor="@color/secondaryUI"
+            android:fontFamily="@font/quicksand_bold"/>
+    </LinearLayout>
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:fontFamily="@font/quicksand_regular"
+        android:text="Your username will be the 'Chef Name'"
+        android:textColor="@color/primaryUI"
+        android:gravity="center"
+        android:textSize="19sp"
+        android:layout_marginTop="5dp"/>
+</LinearLayout>

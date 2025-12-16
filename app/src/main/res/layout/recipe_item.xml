@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="150dp"
+    android:layout_marginBottom="10dp"
+    android:background="@drawable/bg_card"
+    android:orientation="horizontal"
+    android:padding="15dp">
+
+    <ImageView
+        android:id="@+id/recipeItem_recipeImage_iv"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:adjustViewBounds="true"
+        android:background="@drawable/bg_image"
+        android:clipToOutline="true"
+        android:scaleType="centerCrop"
+        android:src="@drawable/img_recipe_item_example" />
+
+    <LinearLayout
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:layout_weight="1"
+        android:orientation="vertical"
+        android:paddingLeft="10dp">
+
+        <TextView
+            android:id="@+id/recipeItem_recipeName_tv"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:autoSizeMaxTextSize="25sp"
+            android:autoSizeMinTextSize="18sp"
+            android:autoSizeTextType="uniform"
+            android:ellipsize="end"
+            android:fontFamily="@font/quicksand_bold"
+            android:maxLines="1"
+            android:text="Recipe Name"
+            android:textColor="@color/primaryUI"
+            android:textSize="25sp" />
+
+        <TextView
+            android:id="@+id/recipeItem_recipeDescription_tv"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:ellipsize="end"
+            android:fontFamily="@font/quicksand_regular"
+            android:maxLines="3"
+            android:text="Recipe Description"
+            android:textColor="@color/recipeDescription"
+            android:textSize="15sp" />
+
+        <TextView
+            android:id="@+id/recipeItem_chefName_tv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Chef: &lt;username&gt;"
+            android:textColor="@color/primaryUI"
+            android:textSize="15sp" />
+
+    </LinearLayout>
+
+    <ImageView
+        android:id="@+id/recipeItem_bookmarkIcon_v"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:background="@drawable/ic_bookmark_unsaved"
+        android:clickable="true" />
+
+</LinearLayout>

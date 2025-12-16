@@ -1,0 +1,118 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/main"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".StartPageActivity">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:background="@drawable/bg_home_page"
+        android:padding="20dp">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/quicksand_bold"
+            android:lineHeight="65sp"
+            android:text="Vegan Recipes"
+            android:textColor="@color/primaryUI"
+            android:textSize="60sp" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/quicksand_regular"
+            android:text="Hundreds of vegan recipes at your hand! Explore, save, mark as cooked and even add your own!"
+            android:textColor="@color/primaryUI"
+            android:textSize="19sp" />
+
+        <androidx.cardview.widget.CardView
+            android:layout_width="match_parent"
+            android:layout_height="320dp"
+            app:cardCornerRadius="16dp"
+            android:layout_marginTop="20sp"
+            app:cardUseCompatPadding="false">
+
+            <ImageSwitcher
+                android:id="@+id/startPage_startImages_is"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_gravity="center"
+                android:background="@drawable/image_switcher_home_page"
+                android:inAnimation="@android:anim/fade_in"
+                android:outAnimation="@android:anim/fade_out"
+                android:scaleType="centerCrop" />
+        </androidx.cardview.widget.CardView>
+
+
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            android:gravity="bottom">
+
+            <android.widget.Button
+                android:id="@+id/startPage_signIn_btn"
+                android:layout_width="match_parent"
+                android:layout_height="60dp"
+                android:layout_gravity="center"
+                android:layout_marginTop="20sp"
+                android:background="@drawable/bg_register_btn"
+                android:fontFamily="@font/quicksand_bold"
+                android:text="Sign in"
+                android:textColor="@color/secondaryUI"
+                android:textSize="18sp"
+                android:stateListAnimator="@null"
+                />
+
+            <android.widget.Button
+                android:id="@+id/startPage_register_btn"
+                android:layout_width="match_parent"
+                android:layout_height="60dp"
+                android:layout_gravity="center"
+                android:layout_marginTop="20sp"
+                android:background="@drawable/bg_sign_in_btn"
+                android:fontFamily="@font/quicksand_bold"
+                android:text="Register"
+                android:textColor="@color/secondaryUI"
+                android:textSize="18sp"
+                android:stateListAnimator="@null"
+                />
+
+            <TextView
+                android:id="@+id/startPage_guest_tv"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginTop="20dp"
+                android:fontFamily="@font/quicksand_bold"
+                android:padding="0dp"
+                android:text="Continue As Guest"
+                android:textColor="@color/primaryUI"
+                android:textSize="14sp" />
+
+        </LinearLayout>
+    </LinearLayout>
+
+    <FrameLayout
+        android:id="@+id/startPage_loadingOverlay_fl"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="#80000000"
+        android:clickable="true"
+        android:focusable="true"
+        android:visibility="gone">
+
+        <ProgressBar
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center" />
+    </FrameLayout>
+
+</FrameLayout>

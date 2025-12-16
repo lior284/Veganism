@@ -1,0 +1,270 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/main"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/bg_register_and_sign_in"
+    android:gravity="center"
+    android:orientation="vertical"
+    tools:context=".RegisterActivity">
+
+    <LinearLayout
+        android:layout_width="320dp"
+        android:layout_height="wrap_content"
+        android:background="@drawable/bg_card"
+        android:elevation="8dp"
+        android:orientation="vertical"
+        android:padding="20dp">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:text="REGISTER"
+            android:textColor="@color/primaryUI"
+            android:textSize="28sp"
+            android:textStyle="bold"
+            android:fontFamily="@font/quicksand_bold"/>
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="320dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:background="@drawable/bg_card"
+        android:elevation="8dp"
+        android:orientation="vertical"
+        android:padding="20dp">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <EditText
+                android:id="@+id/register_firstName_et"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:layout_marginBottom="12dp"
+                android:layout_marginRight="10dp"
+                android:background="@drawable/bg_input"
+                android:hint="First Name"
+                android:inputType="textPersonName"
+                android:padding="12dp"
+                android:textColor="@color/primaryUI"
+                android:textSize="20sp"
+                android:fontFamily="@font/quicksand_regular"/>
+
+            <EditText
+                android:id="@+id/register_lastName_et"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:layout_marginBottom="12dp"
+                android:background="@drawable/bg_input"
+                android:hint="Last Name"
+                android:inputType="textPersonName"
+                android:padding="12dp"
+                android:textColor="@color/primaryUI"
+                android:textSize="20sp"
+                android:fontFamily="@font/quicksand_regular"/>
+        </LinearLayout>
+
+        <EditText
+            android:id="@+id/register_username_et"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="12dp"
+            android:background="@drawable/bg_input"
+            android:hint="Username"
+            android:inputType="text"
+            android:padding="12dp"
+            android:textColor="@color/primaryUI"
+            android:textSize="20sp"
+            android:fontFamily="@font/quicksand_regular" />
+
+        <EditText
+            android:id="@+id/register_email_et"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="12dp"
+            android:background="@drawable/bg_input"
+            android:hint="Email"
+            android:inputType="textEmailAddress"
+            android:padding="12dp"
+            android:textColor="@color/primaryUI"
+            android:textSize="20sp"
+            android:fontFamily="@font/quicksand_regular" />
+
+        <EditText
+            android:id="@+id/register_birthYear_et"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="12dp"
+            android:background="@drawable/bg_input"
+            android:hint="Birth Year"
+            android:inputType="number"
+            android:padding="12dp"
+            android:textColor="@color/primaryUI"
+            android:textSize="20sp"
+            android:fontFamily="@font/quicksand_regular"/>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="12dp"
+            android:gravity="center"
+            android:orientation="horizontal"
+            android:paddingLeft="12dp"
+            android:paddingRight="12dp">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Are you a vegan?"
+                android:textSize="18sp"
+                android:textColor="@color/primaryUI"
+                android:fontFamily="@font/quicksand_regular"/>
+
+            <RadioGroup
+                android:id="@+id/register_isVegan_rg"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <RadioButton
+                    android:id="@+id/register_yes_rb"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Yes"
+                    android:textSize="14sp"
+                    android:textColor="@color/primaryUI"/>
+
+                <RadioButton
+                    android:id="@+id/register_no_rb"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="No"
+                    android:textSize="14sp"
+                    android:textColor="@color/primaryUI"/>
+            </RadioGroup>
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/register_password_ll"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="12dp"
+            android:background="@drawable/bg_input"
+            android:gravity="center"
+            android:orientation="horizontal">
+
+            <EditText
+                android:id="@+id/register_password_et"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="12dp"
+                android:layout_weight="1"
+                android:background="@android:color/transparent"
+                android:hint="Password"
+                android:inputType="textPassword"
+                android:textColor="@color/primaryUI"
+                android:textSize="20sp"
+                android:fontFamily="@font/quicksand_regular"/>
+
+            <ImageButton
+                android:id="@+id/register_togglePassword_btn"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:background="?attr/selectableItemBackgroundBorderless"
+                android:src="@drawable/ic_eye_off" />
+        </LinearLayout>
+
+
+        <LinearLayout
+            android:id="@+id/register_confirmPassword_ll"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="12dp"
+            android:background="@drawable/bg_input"
+            android:gravity="center_vertical"
+            android:orientation="horizontal">
+
+            <EditText
+                android:id="@+id/register_confirmPassword_et"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="12dp"
+                android:layout_weight="1"
+                android:background="@android:color/transparent"
+                android:hint="Confirm Password"
+                android:inputType="textPassword"
+                android:textColor="@color/primaryUI"
+                android:textSize="20sp"
+                android:fontFamily="@font/quicksand_regular"/>
+
+            <ImageButton
+                android:id="@+id/register_toggleConfirmPassword_btn"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:background="?attr/selectableItemBackgroundBorderless"
+                android:src="@drawable/ic_eye_off" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="12dp"
+            android:gravity="center"
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Remember me"
+                android:textSize="18sp"
+                android:textColor="@color/primaryUI"
+                android:fontFamily="@font/quicksand_regular" />
+
+            <CheckBox
+                android:id="@+id/register_rememberMe_cb"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:orientation="horizontal">
+
+            <android.widget.Button
+                android:id="@+id/register_submit_btn"
+                android:layout_width="0dp"
+                android:layout_height="48dp"
+                android:layout_weight="1"
+                android:background="@drawable/bg_button_submit"
+                android:text="SUBMIT"
+                android:textColor="@color/secondaryUI"
+                android:fontFamily="@font/quicksand_bold"/>
+
+
+            <android.widget.Button
+                android:id="@+id/register_reset_btn"
+                android:layout_width="0dp"
+                android:layout_height="48dp"
+                android:layout_marginLeft="8dp"
+                android:layout_weight="1"
+                android:background="@drawable/bg_button_reset"
+                android:text="RESET"
+                android:textColor="@color/secondaryUI"
+                android:fontFamily="@font/quicksand_bold"/>
+        </LinearLayout>
+
+    </LinearLayout>
+
+</LinearLayout>

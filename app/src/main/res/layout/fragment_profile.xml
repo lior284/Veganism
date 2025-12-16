@@ -1,0 +1,161 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/bg_page"
+    android:orientation="vertical"
+    android:padding="15dp"
+    tools:context=".ProfileFragment">
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:fontFamily="@font/quicksand_bold"
+        android:text="Profile"
+        android:textColor="@color/primaryUI"
+        android:textSize="60sp" />
+
+    <ImageView
+        android:id="@+id/profileFragment_profilePicture_iv"
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginTop="15dp"
+        android:background="@drawable/bg_profile_image"
+        android:clickable="true"
+        android:clipToOutline="true"
+        android:scaleType="centerCrop"
+        android:src="@drawable/img_take_profile_picture" />
+
+    <TextView
+        android:id="@+id/profileFragment_fullName_tv"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginTop="10dp"
+        android:fontFamily="@font/quicksand_regular"
+        android:text="Full Name"
+        android:textColor="@color/primaryUI"
+        android:textSize="20dp" />
+
+    <TextView
+        android:id="@+id/profileFragment_email_tv"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:fontFamily="@font/quicksand_regular"
+        android:text="email@example.com"
+        android:textColor="@color/primaryUI50"
+        android:textSize="20dp" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:layout_marginTop="80dp"
+        android:padding="10dp"
+        android:background="@drawable/bg_card">
+
+        <TextView
+            android:id="@+id/profileFragment_userDetails_tv"
+            android:layout_width="match_parent"
+            android:layout_height="60dp"
+            android:gravity="center_vertical"
+            android:fontFamily="@font/quicksand_regular"
+            android:text="User Details"
+            android:textColor="@color/primaryUI"
+            android:textSize="25sp"
+            android:drawableLeft="@drawable/ic_user_details"
+            android:drawableRight="@drawable/ic_arrow_right"
+            android:drawablePadding="15dp"
+            android:clickable="true" />
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="@color/primaryUI" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="60dp"
+            android:orientation="horizontal">
+            <TextView
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:layout_height="60dp"
+                android:gravity="center_vertical"
+                android:fontFamily="@font/quicksand_regular"
+                android:text="Dark Mode"
+                android:textColor="@color/primaryUI"
+                android:textSize="25sp"
+                android:drawableLeft="@drawable/ic_dark_mode"
+                android:drawablePadding="15dp"/>
+
+            <androidx.appcompat.widget.SwitchCompat
+                android:id="@+id/profileFragment_darkMode_sc"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center" />
+
+        </LinearLayout>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="@color/primaryUI" />
+
+        <TextView
+            android:id="@+id/profileFragment_notifications_tv"
+            android:layout_width="match_parent"
+            android:layout_height="60dp"
+            android:gravity="center_vertical"
+            android:fontFamily="@font/quicksand_regular"
+            android:text="Notifications Settings"
+            android:textColor="@color/primaryUI"
+            android:textSize="25sp"
+            android:drawableLeft="@drawable/ic_notification"
+            android:drawableRight="@drawable/ic_arrow_right"
+            android:drawablePadding="15dp"
+            android:clickable="true" />
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="@color/primaryUI" />
+
+        <TextView
+            android:id="@+id/profileFragment_helpAndContact_tv"
+            android:layout_width="match_parent"
+            android:layout_height="60dp"
+            android:gravity="center_vertical"
+            android:fontFamily="@font/quicksand_regular"
+            android:text="Help &amp; Contact"
+            android:textColor="@color/primaryUI"
+            android:textSize="25sp"
+            android:drawableLeft="@drawable/ic_help"
+            android:drawableRight="@drawable/ic_arrow_right"
+            android:drawablePadding="15dp"
+            android:clickable="true" />
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="@color/primaryUI" />
+
+        <TextView
+            android:id="@+id/profileFragment_signOut_tv"
+            android:layout_width="match_parent"
+            android:layout_height="60dp"
+            android:gravity="center_vertical"
+            android:fontFamily="@font/quicksand_regular"
+            android:text="Sign out"
+            android:textColor="@color/primaryUI"
+            android:textSize="25sp"
+            android:drawableLeft="@drawable/ic_sign_out"
+            android:drawableRight="@drawable/ic_arrow_right"
+            android:drawablePadding="15dp"
+            android:clickable="true" />
+
+    </LinearLayout>
+</LinearLayout>

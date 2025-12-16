@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "423409184337",
+    "project_id": "veganism-vegan-recipes",
+    "storage_bucket": "veganism-vegan-recipes.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:423409184337:android:487ddea7f3036ff2ded270",
+        "android_client_info": {
+          "package_name": "com.example.veganism"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyC6P4lIVScVsN7pVPMj8Yq0kC87ZlApqac"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

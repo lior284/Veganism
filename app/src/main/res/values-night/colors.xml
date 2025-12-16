@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="primaryUI">#ffffff</color>
+    <color name="secondaryUI">#000000</color>
+    <color name="indicator">#0A4F4A</color>
+    <color name="recipeDescription">#5A5A5A</color>
+    <color name="bookmarkSave">#1769AA</color>
+    <color name="primaryUI50">#50ffffff</color>
+</resources>

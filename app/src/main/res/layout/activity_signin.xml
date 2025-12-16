@@ -1,0 +1,132 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/main"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".SigninActivity"
+    android:orientation="vertical"
+    android:background="@drawable/bg_register_and_sign_in"
+    android:gravity="center">
+
+    <LinearLayout
+        android:layout_width="320dp"
+        android:layout_height="wrap_content"
+        android:background="@drawable/bg_card"
+        android:elevation="8dp"
+        android:orientation="vertical"
+        android:padding="20dp">
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:text="SIGN IN"
+            android:textColor="@color/primaryUI"
+            android:textSize="28sp"
+            android:textStyle="bold"
+            android:fontFamily="@font/quicksand_bold"/>
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="320dp"
+        android:layout_height="wrap_content"
+        android:background="@drawable/bg_card"
+        android:elevation="8dp"
+        android:orientation="vertical"
+        android:padding="20dp"
+        android:layout_marginTop="20dp">
+
+        <EditText
+            android:id="@+id/signIn_email_et"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="12dp"
+            android:background="@drawable/bg_input"
+            android:hint="Email"
+            android:inputType="textEmailAddress"
+            android:padding="12dp"
+            android:textColor="@color/primaryUI"
+            android:fontFamily="@font/quicksand_regular"/>
+
+        <LinearLayout
+            android:id="@+id/signIn_password_ll"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="12dp"
+            android:background="@drawable/bg_input"
+            android:gravity="center"
+            android:orientation="horizontal">
+
+            <EditText
+                android:id="@+id/signIn_password_et"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="12dp"
+                android:layout_weight="1"
+                android:background="@android:color/transparent"
+                android:hint="Password"
+                android:inputType="textPassword"
+                android:textColor="@color/primaryUI"
+                android:fontFamily="@font/quicksand_regular"/>
+
+            <ImageButton
+                android:id="@+id/signIn_togglePassword_btn"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:background="?attr/selectableItemBackgroundBorderless"
+                android:src="@drawable/ic_eye_off" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="12dp"
+            android:gravity="center"
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Remember me"
+                android:textSize="18sp"
+                android:textColor="@color/primaryUI"
+                android:fontFamily="@font/quicksand_regular" />
+
+            <CheckBox
+                android:id="@+id/signIn_rememberMe_cb"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:orientation="horizontal">
+
+            <android.widget.Button
+                android:id="@+id/signIn_submit_btn"
+                android:layout_width="0dp"
+                android:layout_height="48dp"
+                android:layout_weight="1"
+                android:background="@drawable/bg_button_submit"
+                android:text="SUBMIT"
+                android:textColor="@color/secondaryUI" />
+
+
+            <android.widget.Button
+                android:id="@+id/signIn_reset_btn"
+                android:layout_width="0dp"
+                android:layout_height="48dp"
+                android:layout_marginLeft="8dp"
+                android:layout_weight="1"
+                android:background="@drawable/bg_button_reset"
+                android:text="RESET"
+                android:textColor="@color/secondaryUI" />
+        </LinearLayout>
+
+    </LinearLayout>
+
+</LinearLayout>
