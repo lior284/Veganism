@@ -47,7 +47,7 @@
             android:fontFamily="@font/quicksand_regular"
             android:maxLines="3"
             android:text="Recipe Description"
-            android:textColor="@color/recipeDescription"
+            android:textColor="#919191"
             android:textSize="15sp" />
 
         <TextView

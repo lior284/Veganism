@@ -3,7 +3,5 @@
     <color name="primaryUI">#000000</color>
     <color name="secondaryUI">#ffffff</color>
     <color name="indicator">#11998e</color>
-    <color name="recipeDescription">#919191</color>
     <color name="bookmarkSave">#2196F3</color>
-    <color name="primaryUI50">#50000000</color>
 </resources>
