@@ -20,7 +20,7 @@
             android:fontFamily="@font/quicksand_bold"
             android:lineHeight="65sp"
             android:text="Vegan Recipes"
-            android:textColor="@color/primaryUI"
+            android:textColor="#000000"
             android:textSize="60sp" />
 
         <TextView
@@ -28,7 +28,7 @@
             android:layout_height="wrap_content"
             android:fontFamily="@font/quicksand_regular"
             android:text="Hundreds of vegan recipes at your hand! Explore, save, mark as cooked and even add your own!"
-            android:textColor="@color/primaryUI"
+            android:textColor="#000000"
             android:textSize="19sp" />
 
         <androidx.cardview.widget.CardView

@@ -141,7 +141,8 @@
                     android:layout_height="wrap_content"
                     android:text="Yes"
                     android:textSize="14sp"
-                    android:textColor="@color/primaryUI"/>
+                    android:textColor="@color/primaryUI"
+                    app:buttonTint="@color/primaryUI" />
 
                 <RadioButton
                     android:id="@+id/register_no_rb"
@@ -149,7 +150,8 @@
                     android:layout_height="wrap_content"
                     android:text="No"
                     android:textSize="14sp"
-                    android:textColor="@color/primaryUI"/>
+                    android:textColor="@color/primaryUI"
+                    app:buttonTint="@color/primaryUI" />
             </RadioGroup>
         </LinearLayout>
 

@@ -81,54 +81,73 @@ class ProfileFragment : Fragment() {
             ivProfilePicture.setImageResource(R.drawable.img_take_profile_picture)
         }
         ivProfilePicture.setOnClickListener {
-            if (ContextCompat.checkSelfPermission(requireContext(), android.Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED) {
+            if (ContextCompat.checkSelfPermission(
+                    requireContext(),
+                    android.Manifest.permission.CAMERA
+                ) != PackageManager.PERMISSION_GRANTED
+            ) {
                 requestPermissions(arrayOf(android.Manifest.permission.CAMERA), 101)
             } else {
                 openCamera()
             }
         }
-        takePictureLauncher = registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
-            if (result.resultCode == Activity.RESULT_OK) {
-                val bitmap = result.data?.extras?.get("data") as? Bitmap
-                bitmap?.let { bmp ->
-                    // After the user confirmed the picture
-                    ivProfilePicture.setImageBitmap(bmp)
-                    val imageUri = saveBitmapToTempFile(bmp)
+        takePictureLauncher =
+            registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
+                if (result.resultCode == Activity.RESULT_OK) {
+                    val bitmap = result.data?.extras?.get("data") as? Bitmap
+                    bitmap?.let { bmp ->
+                        // After the user confirmed the picture
+                        ivProfilePicture.setImageBitmap(bmp)
+                        val imageUri = saveBitmapToTempFile(bmp)
 
-                    (requireContext() as MenuActivity).showLoadingOverlayOnMenu()
+                        (requireContext() as MenuActivity).showLoadingOverlayOnMenu()
 
-                    val auth = FirebaseAuth.getInstance()
-                    val user = auth.currentUser
-                    val db = FirebaseFirestore.getInstance()
-                    val storage = FirebaseStorage.getInstance()
+                        val auth = FirebaseAuth.getInstance()
+                        val user = auth.currentUser
+                        val db = FirebaseFirestore.getInstance()
+                        val storage = FirebaseStorage.getInstance()
 
-                    storage.getReference("profile_pictures/" + user!!.uid + ".jpg")
-                        .putFile(imageUri)
-                        .addOnSuccessListener {
-                            // Save file name in Firestore
-                            db.collection("users").document(user.uid)
-                                .update("profilePicture", user.uid + ".jpg")
+                        storage.getReference("profile_pictures/" + user!!.uid + ".jpg")
+                            .putFile(imageUri)
+                            .addOnSuccessListener {
+                                // Save file name in Firestore
+                                db.collection("users").document(user.uid)
+                                    .update("profilePicture", user.uid + ".jpg")
 
-                            // Save Base64 in SharedPreferences
-                            val prefs = requireContext().getSharedPreferences("app_prefs", Context.MODE_PRIVATE)
-                            val stream = java.io.ByteArrayOutputStream()
-                            bmp.compress(Bitmap.CompressFormat.JPEG, 90, stream)
-                            val bytes = stream.toByteArray()
-                            val base64 = android.util.Base64.encodeToString(bytes, android.util.Base64.DEFAULT)
-                            prefs.edit().putString("profilePicture", base64).apply()
+                                // Save Base64 in SharedPreferences
+                                val prefs = requireContext().getSharedPreferences(
+                                    "app_prefs",
+                                    Context.MODE_PRIVATE
+                                )
+                                val stream = java.io.ByteArrayOutputStream()
+                                bmp.compress(Bitmap.CompressFormat.JPEG, 90, stream)
+                                val bytes = stream.toByteArray()
+                                val base64 = android.util.Base64.encodeToString(
+                                    bytes,
+                                    android.util.Base64.DEFAULT
+                                )
+                                prefs.edit().putString("profilePicture", base64).apply()
 
-                            Toast.makeText(requireContext(), "Profile picture updated!", Toast.LENGTH_SHORT).show()
-                            (requireContext() as MenuActivity).hideLoadingOverlayOnMenu()
-                        }
-                        .addOnFailureListener {
-                            Toast.makeText(requireContext(), "Error uploading image", Toast.LENGTH_SHORT).show()
-                            ivProfilePicture.setImageResource(R.drawable.img_take_profile_picture)
-                            (requireContext() as MenuActivity).hideLoadingOverlayOnMenu()
-                        }
+                                Toast.makeText(
+                                    requireContext(),
+                                    "Profile picture updated!",
+                                    Toast.LENGTH_SHORT
+                                ).show()
+                                (requireContext() as MenuActivity).hideLoadingOverlayOnMenu()
+                            }
+                            .addOnFailureListener {
+                                Toast.makeText(
+                                    requireContext(),
+                                    "Error uploading image",
+                                    Toast.LENGTH_SHORT
+                                ).show()
+                                ivProfilePicture.setImageResource(R.drawable.img_take_profile_picture)
+                                (requireContext() as MenuActivity).hideLoadingOverlayOnMenu()
+                            }
+                    }
+
                 }
-
             }
-        }
 
         etEmail.text = prefs.getString("email", "")
         val firstName = prefs.getString("firstName", "")
@@ -136,17 +155,21 @@ class ProfileFragment : Fragment() {
         etFullName.text = "$firstName $lastName"
 
         val userUID = prefs.getString("userUID", "")
-        val userPrefs = requireContext().getSharedPreferences("settings_$userUID", Context.MODE_PRIVATE)
+        val userPrefs =
+            requireContext().getSharedPreferences("settings_$userUID", Context.MODE_PRIVATE)
         scDarkMode.isChecked = userPrefs.getBoolean("darkMode", false)
 
         scDarkMode.setOnCheckedChangeListener { _, isChecked ->
-            userPrefs.edit().putBoolean("darkMode", isChecked).apply()
+            scDarkMode.postDelayed({
+                    userPrefs.edit().putBoolean("darkMode", isChecked).apply()
 
-            AppCompatDelegate.setDefaultNightMode(
-                if (isChecked)
-                    AppCompatDelegate.MODE_NIGHT_YES
-                else
-                    AppCompatDelegate.MODE_NIGHT_NO)
+                    AppCompatDelegate.setDefaultNightMode(
+                        if (isChecked)
+                            AppCompatDelegate.MODE_NIGHT_YES
+                        else
+                            AppCompatDelegate.MODE_NIGHT_NO
+                    )
+                }, 175)
         }
 
         tvSignOut.setOnClickListener {
@@ -183,16 +206,23 @@ class ProfileFragment : Fragment() {
         }
         return Uri.fromFile(file)
     }
-    override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<out String>, grantResults: IntArray) {
+
+    override fun onRequestPermissionsResult(
+        requestCode: Int,
+        permissions: Array<out String>,
+        grantResults: IntArray
+    ) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults)
         if (requestCode == 101) {
             if (grantResults.isNotEmpty() && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
                 openCamera()
             } else {
-                Toast.makeText(requireContext(), "Camera permission denied", Toast.LENGTH_SHORT).show()
+                Toast.makeText(requireContext(), "Camera permission denied", Toast.LENGTH_SHORT)
+                    .show()
             }
         }
     }
+
     private fun openCamera() {
         val intent = Intent(MediaStore.ACTION_IMAGE_CAPTURE)
         takePictureLauncher.launch(intent)
