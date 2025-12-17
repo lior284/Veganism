@@ -4,4 +4,5 @@
     <color name="secondaryUI">#ffffff</color>
     <color name="indicator">#11998e</color>
     <color name="bookmarkSave">#2196F3</color>
+    <color name="scTrackTint">#555555</color>
 </resources>
