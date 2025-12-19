@@ -99,9 +99,10 @@ class StartPageActivity : AppCompatActivity() {
                     Toast.makeText(this, "Error Loading User", Toast.LENGTH_LONG).show()
                     prefs.edit().putBoolean("rememberMe", false).apply()
                 }
+        } else if (user != null) {
+            auth.signOut() // Clear currentUser if user is not logged in and rememberMe is false
         } else {
-            auth.signOut() // Clear currentUser if rememberMe is false
-            prefs.edit().putBoolean("rememberMe", false).apply() // Show sign in screen automatically here
+            prefs.edit().putBoolean("rememberMe", false).apply() // Reset rememberMe if user is not logged in
         }
 
 
