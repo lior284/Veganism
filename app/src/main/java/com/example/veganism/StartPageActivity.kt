@@ -16,6 +16,7 @@ import android.widget.TextView
 import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
+import androidx.appcompat.app.AppCompatDelegate
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import androidx.core.content.edit
@@ -62,8 +63,8 @@ class StartPageActivity : AppCompatActivity() {
             showLoadingOverlay()
             val db = FirebaseFirestore.getInstance()
             db.collection("users").document(user.uid).get()
-                .addOnSuccessListener { doc ->
-                    val myUser = doc.toObject(MyUser::class.java)
+                .addOnSuccessListener {
+                    val myUser = it.toObject(MyUser::class.java)
                     prefs.edit() {
                         putString("firstName", myUser!!.firstName)
                         putString("lastName", myUser.lastName)
@@ -89,8 +90,10 @@ class StartPageActivity : AppCompatActivity() {
                         .addOnFailureListener {
                             prefs.edit().putString("profilePicture", "img_take_profile_picture.png").apply()
                         }
-                    hideLoadingOverlay()
 
+//                    loadUserSettingsFromPrefs(user.uid)
+
+                    hideLoadingOverlay()
                     startActivity(Intent(this, MenuActivity::class.java))
                     finish()
                 }
@@ -150,6 +153,19 @@ class StartPageActivity : AppCompatActivity() {
         super.onDestroy()
         // Stop the handler when the activity is destroyed
         handler.removeCallbacks(switchRunnable)
+    }
+
+    private fun loadUserSettingsFromPrefs(uid: String) {
+        val userPrefs = getSharedPreferences("settings_$uid", MODE_PRIVATE)
+
+        val darkMode = userPrefs.getBoolean("darkMode", false)
+        AppCompatDelegate.setDefaultNightMode(
+            if (darkMode)
+                AppCompatDelegate.MODE_NIGHT_YES
+            else
+                AppCompatDelegate.MODE_NIGHT_NO
+        )
+        // Will add here notifications settings
     }
 
     fun showLoadingOverlay() {

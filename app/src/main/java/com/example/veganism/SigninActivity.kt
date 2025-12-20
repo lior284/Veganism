@@ -75,9 +75,14 @@ class SigninActivity : AppCompatActivity() {
                                 .addOnSuccessListener {
                                     val myUser = it.toObject(MyUser::class.java)
                                     saveUserDetailsInPrefs(myUser!!)
-                                }
+//                                    loadUserSettingsFromPrefs(user.uid)
 
-                            startActivity(Intent(this, MenuActivity::class.java))
+                                    startActivity(Intent(this, MenuActivity::class.java))
+                                    finish()
+                                }
+                                .addOnFailureListener {
+                                    Toast.makeText(this, "Error Loading User", Toast.LENGTH_LONG).show()
+                                }
                         } else {
                             val exception = task.exception
                             showSpecificErrorMessage(exception!!)

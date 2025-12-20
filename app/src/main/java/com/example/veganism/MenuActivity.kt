@@ -1,5 +1,6 @@
 package com.example.veganism
 
+import android.annotation.SuppressLint
 import android.content.Intent
 import android.content.res.Resources
 import android.os.Bundle
@@ -41,9 +42,32 @@ class MenuActivity : AppCompatActivity() {
 
         indicator = findViewById(R.id.homePage_indicator_v)
 
-        switchFragment(HomeFragment(), homeBtn)
-        homeBtn.post {
-            moveIndicator(homeBtn)
+        val prefs = getSharedPreferences("app_prefs", MODE_PRIVATE)
+
+        val lastFragment = prefs.getString("lastFragment", null)
+
+        indicator.post {
+            when (lastFragment) {
+                "AddRecipeFragment" -> {
+                    indicator.x = addRecipeBtn.x
+                    switchFragment(AddRecipeFragment(), addRecipeBtn)
+                }
+
+                "AiChatFragment" -> {
+                    indicator.x = aiChatBtn.x
+                    switchFragment(AiChatFragment(), aiChatBtn)
+                }
+
+                "ProfileFragment" -> {
+                    indicator.x = profileBtn.x
+                    switchFragment(ProfileFragment(), profileBtn)
+                }
+
+                else -> {
+                    indicator.x = homeBtn.x
+                    switchFragment(HomeFragment(), homeBtn)
+                }
+            }
         }
 
         if (FirebaseAuth.getInstance().currentUser != null) {
@@ -97,6 +121,8 @@ class MenuActivity : AppCompatActivity() {
         }
     }
 
+
+    @SuppressLint("UseKtx")
     private fun switchFragment(fragment: Fragment, textView: TextView) {
         val fragmentManager = supportFragmentManager
         val fragmentTransaction = fragmentManager.beginTransaction()
@@ -104,6 +130,9 @@ class MenuActivity : AppCompatActivity() {
         fragmentTransaction.commit()
 
         moveIndicator(textView)
+
+        val prefs = getSharedPreferences("app_prefs", MODE_PRIVATE)
+        prefs.edit().putString("lastFragment", fragment::class.simpleName).apply()
     }
 
     private fun moveIndicator(target: TextView) {

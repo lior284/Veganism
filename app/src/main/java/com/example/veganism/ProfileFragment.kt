@@ -91,8 +91,7 @@ class ProfileFragment : Fragment() {
                 openCamera()
             }
         }
-        takePictureLauncher =
-            registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
+        takePictureLauncher = registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
                 if (result.resultCode == Activity.RESULT_OK) {
                     val bitmap = result.data?.extras?.get("data") as? Bitmap
                     bitmap?.let { bmp ->
@@ -155,9 +154,12 @@ class ProfileFragment : Fragment() {
         etFullName.text = "$firstName $lastName"
 
         val userUID = prefs.getString("userUID", "")
-        val userPrefs =
-            requireContext().getSharedPreferences("settings_$userUID", Context.MODE_PRIVATE)
+        val userPrefs = requireContext().getSharedPreferences("settings_$userUID", Context.MODE_PRIVATE)
         scDarkMode.isChecked = userPrefs.getBoolean("darkMode", false)
+
+        tvUserDetails.setOnClickListener {
+            startActivity(Intent(requireContext(), UserDetailsActivity::class.java))
+        }
 
         scDarkMode.setOnCheckedChangeListener { _, isChecked ->
             scDarkMode.postDelayed({
