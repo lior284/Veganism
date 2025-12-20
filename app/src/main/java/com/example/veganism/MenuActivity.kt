@@ -23,6 +23,8 @@ class MenuActivity : AppCompatActivity() {
     private lateinit var registerSignInBtn: TextView
 
     private lateinit var indicator: View
+    private var firstLoad = true
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -46,29 +48,15 @@ class MenuActivity : AppCompatActivity() {
 
         val lastFragment = prefs.getString("lastFragment", null)
 
-        indicator.post {
-            when (lastFragment) {
-                "AddRecipeFragment" -> {
-                    indicator.x = addRecipeBtn.x
-                    switchFragment(AddRecipeFragment(), addRecipeBtn)
-                }
-
-                "AiChatFragment" -> {
-                    indicator.x = aiChatBtn.x
-                    switchFragment(AiChatFragment(), aiChatBtn)
-                }
-
-                "ProfileFragment" -> {
-                    indicator.x = profileBtn.x
-                    switchFragment(ProfileFragment(), profileBtn)
-                }
-
-                else -> {
-                    indicator.x = homeBtn.x
-                    switchFragment(HomeFragment(), homeBtn)
-                }
-            }
+        val (fragment, button) = when (lastFragment) {
+            "AddRecipeFragment" -> AddRecipeFragment() to addRecipeBtn
+            "AiChatFragment" -> AiChatFragment() to aiChatBtn
+            "ProfileFragment" -> ProfileFragment() to profileBtn
+            else -> HomeFragment() to homeBtn
         }
+
+        switchFragment(fragment, button)
+
 
         if (FirebaseAuth.getInstance().currentUser != null) {
             addRecipeBtn.visibility = View.VISIBLE
@@ -94,6 +82,10 @@ class MenuActivity : AppCompatActivity() {
             // Set indicator width to half the screen width (there are only two buttons)
             indicator.layoutParams.width = screenWidth / 2
             indicator.requestLayout()
+        }
+
+        indicator.post {
+            indicator.x = button.x
         }
 
         homeBtn.setOnClickListener {
@@ -129,7 +121,12 @@ class MenuActivity : AppCompatActivity() {
         fragmentTransaction.replace(R.id.fragment_container, fragment)
         fragmentTransaction.commit()
 
-        moveIndicator(textView)
+        if (!firstLoad) {
+            moveIndicator(textView)
+        }
+
+        firstLoad = false
+
 
         val prefs = getSharedPreferences("app_prefs", MODE_PRIVATE)
         prefs.edit().putString("lastFragment", fragment::class.simpleName).apply()

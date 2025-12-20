@@ -59,6 +59,13 @@ class UserDetailsActivity : AppCompatActivity() {
             }
 
 
+        val backBtn = findViewById<TextView>(R.id.userDetails_backArrow_iv)
+        backBtn.setOnClickListener {
+            startActivity(Intent(this, MenuActivity::class.java))
+            finish()
+        }
+
+
         val btnReset = findViewById<Button>(R.id.userDetails_reset_btn)
         btnReset.setOnClickListener { resetFields() }
 
