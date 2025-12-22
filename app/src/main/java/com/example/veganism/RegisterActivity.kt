@@ -266,11 +266,7 @@ class RegisterActivity : AppCompatActivity() {
         val userPrefs = getSharedPreferences("settings_$uid", MODE_PRIVATE)
 
         userPrefs.edit {
-            if(AppCompatDelegate.getDefaultNightMode() == AppCompatDelegate.MODE_NIGHT_YES)
-                putBoolean("darkMode", true)
-            else
-                putBoolean("darkMode", false)
-
+            putBoolean("darkMode", false)
             // Will add here default notifications settings
             apply()
         }
