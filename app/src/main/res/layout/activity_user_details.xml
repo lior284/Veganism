@@ -1,0 +1,210 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/main"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/bg_page"
+    android:orientation="vertical"
+    tools:context=".UserDetailsActivity">
+
+    <TextView
+        android:id="@+id/userDetails_backArrow_iv"
+        android:layout_width="wrap_content"
+        android:layout_height="50dp"
+        android:gravity="center"
+        android:layout_margin="10dp"
+        android:drawableLeft="@drawable/ic_arrow_left"
+        android:text="BACK"
+        android:fontFamily="@font/quicksand_bold"
+        android:textSize="20sp"
+        android:textColor="@color/primaryUI"
+        android:drawablePadding="5dp"
+        android:clickable="true" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:gravity="center">
+
+
+        <LinearLayout
+            android:layout_width="320dp"
+            android:layout_height="wrap_content"
+            android:background="@drawable/bg_card"
+            android:elevation="8dp"
+            android:orientation="vertical"
+            android:padding="20dp">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:fontFamily="@font/quicksand_bold"
+                android:text="USER DETAILS"
+                android:textColor="@color/primaryUI"
+                android:textSize="28sp"
+                android:textStyle="bold" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="320dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:background="@drawable/bg_card"
+            android:elevation="8dp"
+            android:orientation="vertical"
+            android:padding="20dp">
+
+            <TextView
+                android:id="@+id/userDetails_email_tv"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="20dp"
+                android:fontFamily="@font/quicksand_regular"
+                android:gravity="center"
+                android:text="email@example.com"
+                android:textColor="@color/primaryUI"
+                android:textSize="20sp" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <EditText
+                    android:id="@+id/userDetails_firstName_et"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginRight="10dp"
+                    android:layout_marginBottom="12dp"
+                    android:layout_weight="1"
+                    android:background="@drawable/bg_input"
+                    android:fontFamily="@font/quicksand_regular"
+                    android:hint="First Name"
+                    android:inputType="textPersonName"
+                    android:padding="12dp"
+                    android:textColor="@color/primaryUI"
+                    android:textSize="20sp" />
+
+                <EditText
+                    android:id="@+id/userDetails_lastName_et"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="12dp"
+                    android:layout_weight="1"
+                    android:background="@drawable/bg_input"
+                    android:fontFamily="@font/quicksand_regular"
+                    android:hint="Last Name"
+                    android:inputType="textPersonName"
+                    android:padding="12dp"
+                    android:textColor="@color/primaryUI"
+                    android:textSize="20sp" />
+            </LinearLayout>
+
+            <EditText
+                android:id="@+id/userDetails_username_et"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="12dp"
+                android:background="@drawable/bg_input"
+                android:fontFamily="@font/quicksand_regular"
+                android:hint="Username"
+                android:inputType="text"
+                android:padding="12dp"
+                android:textColor="@color/primaryUI"
+                android:textSize="20sp" />
+
+            <EditText
+                android:id="@+id/userDetails_birthYear_et"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="12dp"
+                android:background="@drawable/bg_input"
+                android:fontFamily="@font/quicksand_regular"
+                android:hint="Birth Year"
+                android:inputType="number"
+                android:padding="12dp"
+                android:textColor="@color/primaryUI"
+                android:textSize="20sp" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="12dp"
+                android:gravity="center"
+                android:orientation="horizontal"
+                android:paddingLeft="12dp"
+                android:paddingRight="12dp"
+                >
+
+                <TextView
+                    android:id="@+id/userDetails_isVegan_tv"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/quicksand_regular"
+                    android:text="Are you a vegan?"
+                    android:textColor="@color/radio_is_vegan_text_color"
+                    android:textSize="18sp" />
+
+                <RadioGroup
+                    android:id="@+id/userDetails_isVegan_rg"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+
+                    <RadioButton
+                        android:id="@+id/userDetails_yes_rb"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Yes"
+                        android:textColor="@color/radio_is_vegan_text_color"
+                        android:textSize="14sp"
+                        app:buttonTint="@color/radio_is_vegan_text_color" />
+
+                    <RadioButton
+                        android:id="@+id/userDetails_no_rb"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="No"
+                        android:textColor="@color/radio_is_vegan_text_color"
+                        android:textSize="14sp"
+                        app:buttonTint="@color/radio_is_vegan_text_color" />
+                </RadioGroup>
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:orientation="horizontal">
+
+                <android.widget.Button
+                    android:id="@+id/userDetails_change_btn"
+                    android:layout_width="0dp"
+                    android:layout_height="48dp"
+                    android:layout_weight="1"
+                    android:background="@drawable/bg_button_submit"
+                    android:fontFamily="@font/quicksand_bold"
+                    android:text="CHANGE"
+                    android:textColor="@color/secondaryUI" />
+
+
+                <android.widget.Button
+                    android:id="@+id/userDetails_reset_btn"
+                    android:layout_width="0dp"
+                    android:layout_height="48dp"
+                    android:layout_marginLeft="8dp"
+                    android:layout_weight="1"
+                    android:background="@drawable/bg_button_reset"
+                    android:fontFamily="@font/quicksand_bold"
+                    android:text="RESET"
+                    android:textColor="@color/secondaryUI" />
+            </LinearLayout>
+
+        </LinearLayout>
+    </LinearLayout>
+</FrameLayout>

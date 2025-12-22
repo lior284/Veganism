@@ -1,5 +1,6 @@
 package com.example.veganism
 
+import android.annotation.SuppressLint
 import android.content.Intent
 import android.content.res.Resources
 import android.os.Bundle
@@ -22,6 +23,8 @@ class MenuActivity : AppCompatActivity() {
     private lateinit var registerSignInBtn: TextView
 
     private lateinit var indicator: View
+    private var firstLoad = true
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -41,10 +44,19 @@ class MenuActivity : AppCompatActivity() {
 
         indicator = findViewById(R.id.homePage_indicator_v)
 
-        switchFragment(HomeFragment(), homeBtn)
-        homeBtn.post {
-            moveIndicator(homeBtn)
+        val prefs = getSharedPreferences("app_prefs", MODE_PRIVATE)
+
+        val lastFragment = prefs.getString("lastFragment", null)
+
+        val (fragment, button) = when (lastFragment) {
+            "AddRecipeFragment" -> AddRecipeFragment() to addRecipeBtn
+            "AiChatFragment" -> AiChatFragment() to aiChatBtn
+            "ProfileFragment" -> ProfileFragment() to profileBtn
+            else -> HomeFragment() to homeBtn
         }
+
+        switchFragment(fragment, button)
+
 
         if (FirebaseAuth.getInstance().currentUser != null) {
             addRecipeBtn.visibility = View.VISIBLE
@@ -72,6 +84,10 @@ class MenuActivity : AppCompatActivity() {
             indicator.requestLayout()
         }
 
+        indicator.post {
+            indicator.x = button.x
+        }
+
         homeBtn.setOnClickListener {
             switchFragment(HomeFragment(), homeBtn)
         }
@@ -97,13 +113,23 @@ class MenuActivity : AppCompatActivity() {
         }
     }
 
+
+    @SuppressLint("UseKtx")
     private fun switchFragment(fragment: Fragment, textView: TextView) {
         val fragmentManager = supportFragmentManager
         val fragmentTransaction = fragmentManager.beginTransaction()
         fragmentTransaction.replace(R.id.fragment_container, fragment)
         fragmentTransaction.commit()
 
-        moveIndicator(textView)
+        if (!firstLoad) {
+            moveIndicator(textView)
+        }
+
+        firstLoad = false
+
+
+        val prefs = getSharedPreferences("app_prefs", MODE_PRIVATE)
+        prefs.edit().putString("lastFragment", fragment::class.simpleName).apply()
     }
 
     private fun moveIndicator(target: TextView) {
