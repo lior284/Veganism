@@ -4,9 +4,10 @@ import android.annotation.SuppressLint
 import android.content.Intent
 import android.content.res.Resources
 import android.os.Bundle
-import android.util.Log
 import android.view.View
-import android.widget.*
+import android.widget.FrameLayout
+import android.widget.TextView
+import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
@@ -137,10 +138,7 @@ class MenuActivity : AppCompatActivity() {
         val x = target.x
 
         // Animate the indicator's X movement
-        indicator.animate()
-            .x(x)
-            .setDuration(200)
-            .start()
+        indicator.animate().x(x).setDuration(200).start()
     }
 
     fun showLoadingOverlayOnMenu() {
