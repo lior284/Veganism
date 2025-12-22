@@ -4,12 +4,15 @@ import android.content.Intent
 import android.os.Bundle
 import android.widget.*
 import androidx.activity.enableEdgeToEdge
+import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
+import androidx.appcompat.content.res.AppCompatResources
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
 import androidx.core.content.edit
+import androidx.core.widget.addTextChangedListener
 
 class UserDetailsActivity : AppCompatActivity() {
 
@@ -19,6 +22,7 @@ class UserDetailsActivity : AppCompatActivity() {
     private lateinit var tvEmail: TextView
     private lateinit var etBirthYear: EditText
     private lateinit var rgIsVegan: RadioGroup
+    private lateinit var tvIsVegan: TextView
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -30,12 +34,19 @@ class UserDetailsActivity : AppCompatActivity() {
             insets
         }
 
+        lateinit var firstName: String
+        lateinit var lastName: String
+        lateinit var username: String
+        lateinit var birthYear: String
+        var isVegan: Boolean = false // Cannot use 'lateinit' so applying default value
+
         etFirstName = findViewById(R.id.userDetails_firstName_et)
         etLastName = findViewById(R.id.userDetails_lastName_et)
         etUsername = findViewById(R.id.userDetails_username_et)
         tvEmail = findViewById(R.id.userDetails_email_tv)
         etBirthYear = findViewById(R.id.userDetails_birthYear_et)
         rgIsVegan = findViewById(R.id.userDetails_isVegan_rg)
+        tvIsVegan = findViewById(R.id.userDetails_isVegan_tv)
 
         val auth = FirebaseAuth.getInstance()
         val user = auth.currentUser
@@ -44,12 +55,19 @@ class UserDetailsActivity : AppCompatActivity() {
         db.collection("users").document(user.uid).get()
             .addOnSuccessListener {
                 val myUser = it.toObject(MyUser::class.java)
-                etFirstName.setText(myUser!!.firstName)
-                etLastName.setText(myUser.lastName)
-                etUsername.setText(myUser.username)
-                etBirthYear.setText(myUser.birthYear.toString())
+                firstName = myUser!!.firstName
+                lastName = myUser.lastName
+                username = myUser.username
+                birthYear = myUser.birthYear.toString()
+                isVegan = myUser.isVegan
 
-                if(myUser.isVegan)
+
+                etFirstName.setText(firstName)
+                etLastName.setText(lastName)
+                etUsername.setText(username)
+                etBirthYear.setText(birthYear)
+
+                if(isVegan)
                     rgIsVegan.check(R.id.userDetails_yes_rb)
                 else
                     rgIsVegan.check(R.id.userDetails_no_rb)
@@ -59,12 +77,38 @@ class UserDetailsActivity : AppCompatActivity() {
             }
 
 
-        val backBtn = findViewById<TextView>(R.id.userDetails_backArrow_iv)
-        backBtn.setOnClickListener {
-            startActivity(Intent(this, MenuActivity::class.java))
-            finish()
+        etFirstName.addTextChangedListener {
+            val text = it.toString()
+            etFirstName.isActivated = text != firstName
+        }
+        etLastName.addTextChangedListener {
+            val text = it.toString()
+            etLastName.isActivated = text != lastName
+        }
+        etUsername.addTextChangedListener {
+            val text = it.toString()
+            etUsername.isActivated = text != username
+        }
+        etBirthYear.addTextChangedListener {
+            val text = it.toString()
+            etBirthYear.isActivated = text != birthYear
+        }
+        rgIsVegan.setOnCheckedChangeListener { _, _ ->
+            val changed = (rgIsVegan.checkedRadioButtonId == R.id.userDetails_yes_rb) != isVegan
+
+            val rbIsVeganYes = findViewById<RadioButton>(R.id.userDetails_yes_rb)
+            val rbIsVeganNo = findViewById<RadioButton>(R.id.userDetails_no_rb)
+
+            tvIsVegan.isActivated = changed
+            rbIsVeganYes.isActivated = changed
+            rbIsVeganNo.isActivated = changed
         }
 
+
+        val backBtn = findViewById<TextView>(R.id.userDetails_backArrow_iv)
+        backBtn.setOnClickListener {
+            onBackPressed()
+        }
 
         val btnReset = findViewById<Button>(R.id.userDetails_reset_btn)
         btnReset.setOnClickListener { resetFields() }
@@ -79,7 +123,7 @@ class UserDetailsActivity : AppCompatActivity() {
                 etUsername.text.toString(),
                 etBirthYear.text.toString().toInt(),
                 rgIsVegan.checkedRadioButtonId == R.id.userDetails_yes_rb,
-                "${user!!.uid}.jpg}"
+                "${user!!.uid}.jpg"
             )
 
             val db = FirebaseFirestore.getInstance()
@@ -97,6 +141,23 @@ class UserDetailsActivity : AppCompatActivity() {
         }
     }
 
+    @Deprecated("Deprecated in Java")
+    override fun onBackPressed() {
+        if (madeChanges()) {
+            AlertDialog.Builder(this)
+                .setTitle("Discard Changes?")
+                .setMessage("You have unsaved changes. Are you sure you want to discard them?")
+                .setPositiveButton("Yes") { _, _ -> super.onBackPressed() }
+                .setNegativeButton("No", null)
+                .show()
+        } else {
+            super.onBackPressed()
+        }
+    }
+
+    private fun madeChanges(): Boolean {
+        return etFirstName.isActivated || etLastName.isActivated || etUsername.isActivated || etBirthYear.isActivated || tvIsVegan.isActivated
+    }
     private fun saveUserDetailsInPrefs() {
         val prefs = getSharedPreferences("app_prefs", MODE_PRIVATE)
         prefs.edit {

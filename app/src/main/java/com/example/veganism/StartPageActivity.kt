@@ -91,7 +91,7 @@ class StartPageActivity : AppCompatActivity() {
                             prefs.edit().putString("profilePicture", "img_take_profile_picture.png").apply()
                         }
 
-//                    loadUserSettingsFromPrefs(user.uid)
+                    loadUserSettingsFromPrefs(user.uid)
 
                     hideLoadingOverlay()
                     startActivity(Intent(this, MenuActivity::class.java))

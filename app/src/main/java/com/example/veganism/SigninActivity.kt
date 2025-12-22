@@ -67,7 +67,7 @@ class SigninActivity : AppCompatActivity() {
                 )
                     .addOnCompleteListener(this) { task ->
                         if (task.isSuccessful) {
-                            Toast.makeText(this, "User Signed In Successfully!", Toast.LENGTH_LONG).show()
+                            Toast.makeText(this, "User Signed In Successfully.", Toast.LENGTH_SHORT).show()
 
                             val user = auth.currentUser
                             val db = FirebaseFirestore.getInstance()
@@ -75,7 +75,7 @@ class SigninActivity : AppCompatActivity() {
                                 .addOnSuccessListener {
                                     val myUser = it.toObject(MyUser::class.java)
                                     saveUserDetailsInPrefs(myUser!!)
-//                                    loadUserSettingsFromPrefs(user.uid)
+                                    loadUserSettingsFromPrefs(user.uid)
 
                                     startActivity(Intent(this, MenuActivity::class.java))
                                     finish()
