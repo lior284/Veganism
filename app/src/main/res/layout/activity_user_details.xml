@@ -138,8 +138,7 @@
                 android:gravity="center"
                 android:orientation="horizontal"
                 android:paddingLeft="12dp"
-                android:paddingRight="12dp"
-                >
+                android:paddingRight="12dp">
 
                 <TextView
                     android:id="@+id/userDetails_isVegan_tv"
@@ -147,7 +146,7 @@
                     android:layout_height="wrap_content"
                     android:fontFamily="@font/quicksand_regular"
                     android:text="Are you a vegan?"
-                    android:textColor="@color/radio_is_vegan_text_color"
+                    android:textColor="@color/primaryUI"
                     android:textSize="18sp" />
 
                 <RadioGroup
@@ -161,18 +160,18 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="Yes"
-                        android:textColor="@color/radio_is_vegan_text_color"
+                        android:textColor="@color/primaryUI"
                         android:textSize="14sp"
-                        app:buttonTint="@color/radio_is_vegan_text_color" />
+                        app:buttonTint="@color/primaryUI" />
 
                     <RadioButton
                         android:id="@+id/userDetails_no_rb"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="No"
-                        android:textColor="@color/radio_is_vegan_text_color"
+                        android:textColor="@color/primaryUI"
                         android:textSize="14sp"
-                        app:buttonTint="@color/radio_is_vegan_text_color" />
+                        app:buttonTint="@color/primaryUI" />
                 </RadioGroup>
             </LinearLayout>
 

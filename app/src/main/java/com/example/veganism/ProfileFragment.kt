@@ -180,7 +180,7 @@ class ProfileFragment : Fragment() {
                 .setTitle("Sign out")
                 .setMessage("Are you sure you want to sign out?")
                 .setPositiveButton("Yes") { _, _ ->
-                    // Clearing all the data from the shared prefs except the rememberMe state
+                    // Clearing all the data from the shared prefs
                     prefs.edit().clear().apply()
 
                     // Signing out the user
@@ -188,9 +188,10 @@ class ProfileFragment : Fragment() {
                     auth.signOut()
                     Toast.makeText(requireContext(), "User Signed Out.", Toast.LENGTH_LONG).show()
 
-                    val intent = Intent(requireContext(), StartPageActivity::class.java)
-                    startActivity(intent)
+                    startActivity(Intent(requireContext(), StartPageActivity::class.java))
                     requireActivity().finish()
+
+                    AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO)
 
                     activity?.finish()
                 }

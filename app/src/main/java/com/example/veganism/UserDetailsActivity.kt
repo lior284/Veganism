@@ -1,6 +1,9 @@
 package com.example.veganism
 
+import android.annotation.SuppressLint
 import android.content.Intent
+import android.content.res.ColorStateList
+import android.graphics.drawable.GradientDrawable
 import android.os.Bundle
 import android.widget.*
 import androidx.activity.enableEdgeToEdge
@@ -12,6 +15,7 @@ import androidx.core.view.WindowInsetsCompat
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
 import androidx.core.content.edit
+import androidx.core.graphics.toColorInt
 import androidx.core.widget.addTextChangedListener
 
 class UserDetailsActivity : AppCompatActivity() {
@@ -24,6 +28,12 @@ class UserDetailsActivity : AppCompatActivity() {
     private lateinit var rgIsVegan: RadioGroup
     private lateinit var tvIsVegan: TextView
 
+    private lateinit var originalFirstName: String
+    private lateinit var originalLastName: String
+    private lateinit var originalUsername: String
+    private lateinit var originalBirthYear: String
+    private var originalIsVegan: Boolean = false // Cannot use 'lateinit' so applying default value
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
@@ -33,12 +43,6 @@ class UserDetailsActivity : AppCompatActivity() {
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
             insets
         }
-
-        lateinit var firstName: String
-        lateinit var lastName: String
-        lateinit var username: String
-        lateinit var birthYear: String
-        var isVegan: Boolean = false // Cannot use 'lateinit' so applying default value
 
         etFirstName = findViewById(R.id.userDetails_firstName_et)
         etLastName = findViewById(R.id.userDetails_lastName_et)
@@ -55,19 +59,19 @@ class UserDetailsActivity : AppCompatActivity() {
         db.collection("users").document(user.uid).get()
             .addOnSuccessListener {
                 val myUser = it.toObject(MyUser::class.java)
-                firstName = myUser!!.firstName
-                lastName = myUser.lastName
-                username = myUser.username
-                birthYear = myUser.birthYear.toString()
-                isVegan = myUser.isVegan
+                originalFirstName = myUser!!.firstName
+                originalLastName = myUser.lastName
+                originalUsername = myUser.username
+                originalBirthYear = myUser.birthYear.toString()
+                originalIsVegan = myUser.isVegan
 
 
-                etFirstName.setText(firstName)
-                etLastName.setText(lastName)
-                etUsername.setText(username)
-                etBirthYear.setText(birthYear)
+                etFirstName.setText(originalFirstName)
+                etLastName.setText(originalLastName)
+                etUsername.setText(originalUsername)
+                etBirthYear.setText(originalBirthYear)
 
-                if(isVegan)
+                if(originalIsVegan)
                     rgIsVegan.check(R.id.userDetails_yes_rb)
                 else
                     rgIsVegan.check(R.id.userDetails_no_rb)
@@ -79,29 +83,56 @@ class UserDetailsActivity : AppCompatActivity() {
 
         etFirstName.addTextChangedListener {
             val text = it.toString()
-            etFirstName.isActivated = text != firstName
+            val drawable = etFirstName.background as GradientDrawable
+            if(text != originalFirstName)
+                drawable.setStroke(3, "#2196F3".toColorInt())
+            else
+                drawable.setStroke(1, "#DDDDDD".toColorInt())
         }
         etLastName.addTextChangedListener {
             val text = it.toString()
-            etLastName.isActivated = text != lastName
+            val drawable = etLastName.background as GradientDrawable
+            if(text != originalLastName)
+                drawable.setStroke(3, "#2196F3".toColorInt())
+            else
+                drawable.setStroke(1, "#DDDDDD".toColorInt())
         }
         etUsername.addTextChangedListener {
             val text = it.toString()
-            etUsername.isActivated = text != username
+            val drawable = etUsername.background as GradientDrawable
+            if(text != originalUsername)
+                drawable.setStroke(3, "#2196F3".toColorInt())
+            else
+                drawable.setStroke(1, "#DDDDDD".toColorInt())
         }
         etBirthYear.addTextChangedListener {
             val text = it.toString()
-            etBirthYear.isActivated = text != birthYear
+            val drawable = etBirthYear.background as GradientDrawable
+            if(text != originalBirthYear)
+                drawable.setStroke(3, "#2196F3".toColorInt())
+            else
+                drawable.setStroke(1, "#DDDDDD".toColorInt())
         }
         rgIsVegan.setOnCheckedChangeListener { _, _ ->
-            val changed = (rgIsVegan.checkedRadioButtonId == R.id.userDetails_yes_rb) != isVegan
+            val changed = (rgIsVegan.checkedRadioButtonId == R.id.userDetails_yes_rb) != originalIsVegan
 
             val rbIsVeganYes = findViewById<RadioButton>(R.id.userDetails_yes_rb)
             val rbIsVeganNo = findViewById<RadioButton>(R.id.userDetails_no_rb)
 
-            tvIsVegan.isActivated = changed
-            rbIsVeganYes.isActivated = changed
-            rbIsVeganNo.isActivated = changed
+            if(changed)
+            {
+                tvIsVegan.setTextColor("#2196F3".toColorInt())
+                rbIsVeganYes.setTextColor("#2196F3".toColorInt())
+                rbIsVeganYes.buttonTintList = ColorStateList.valueOf("#2196F3".toColorInt())
+                rbIsVeganNo.setTextColor("#2196F3".toColorInt())
+                rbIsVeganNo.buttonTintList = ColorStateList.valueOf("#2196F3".toColorInt())
+            } else {
+                tvIsVegan.setTextColor(AppCompatResources.getColorStateList(this, R.color.primaryUI))
+                rbIsVeganYes.setTextColor(AppCompatResources.getColorStateList(this, R.color.primaryUI))
+                rbIsVeganYes.buttonTintList = ColorStateList.valueOf(AppCompatResources.getColorStateList(this, R.color.primaryUI).defaultColor)
+                rbIsVeganNo.setTextColor(AppCompatResources.getColorStateList(this, R.color.primaryUI))
+                rbIsVeganNo.buttonTintList = ColorStateList.valueOf(AppCompatResources.getColorStateList(this, R.color.primaryUI).defaultColor)
+            }
         }
 
 
@@ -141,6 +172,7 @@ class UserDetailsActivity : AppCompatActivity() {
         }
     }
 
+    @SuppressLint("GestureBackNavigation")
     @Deprecated("Deprecated in Java")
     override fun onBackPressed() {
         if (madeChanges()) {
@@ -156,7 +188,13 @@ class UserDetailsActivity : AppCompatActivity() {
     }
 
     private fun madeChanges(): Boolean {
-        return etFirstName.isActivated || etLastName.isActivated || etUsername.isActivated || etBirthYear.isActivated || tvIsVegan.isActivated
+        val currentIsVegan = rgIsVegan.checkedRadioButtonId == R.id.userDetails_yes_rb
+
+        return etFirstName.text.toString() != originalFirstName ||
+                etLastName.text.toString() != originalLastName ||
+                etUsername.text.toString() != originalUsername ||
+                etBirthYear.text.toString() != originalBirthYear ||
+                currentIsVegan != originalIsVegan
     }
     private fun saveUserDetailsInPrefs() {
         val prefs = getSharedPreferences("app_prefs", MODE_PRIVATE)

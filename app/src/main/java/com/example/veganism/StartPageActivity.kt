@@ -3,6 +3,7 @@ package com.example.veganism
 import android.annotation.SuppressLint
 import android.content.Context
 import android.content.Intent
+import android.content.res.Configuration
 import android.graphics.Bitmap
 import android.os.Bundle
 import android.os.Handler
@@ -17,6 +18,7 @@ import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.app.AppCompatDelegate
+import androidx.cardview.widget.CardView
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import androidx.core.content.edit
@@ -108,7 +110,24 @@ class StartPageActivity : AppCompatActivity() {
             prefs.edit().putBoolean("rememberMe", false).apply() // Reset rememberMe if user is not logged in
         }
 
+        val cvImageSwitcher = findViewById<CardView>(R.id.startPage_isView_cv)
+        if(AppCompatDelegate.getDefaultNightMode() == AppCompatDelegate.MODE_NIGHT_YES) {
+            cvImageSwitcher.alpha = 0.7f
+        } else {
+            cvImageSwitcher.alpha = 1.0f
+        }
 
+        val scDarkMode = findViewById<androidx.appcompat.widget.SwitchCompat>(R.id.startPage_darkMode_sc)
+        scDarkMode.setOnCheckedChangeListener { _, isChecked ->
+            scDarkMode.postDelayed({
+                AppCompatDelegate.setDefaultNightMode(
+                    if (isChecked)
+                        AppCompatDelegate.MODE_NIGHT_YES
+                    else
+                        AppCompatDelegate.MODE_NIGHT_NO
+                )
+            }, 175)
+        }
 
         val registerBtn = findViewById<Button>(R.id.startPage_register_btn)
         registerBtn.setOnClickListener {
