@@ -56,11 +56,10 @@ class HomeFragment : Fragment() {
         val db = Firebase.firestore
         val recipesList: MutableList<Recipe> = mutableListOf()
 
-        db.collection("recipes")
-            .get()
+        db.collection("recipes").get()
             .addOnSuccessListener { result ->
-                for (document in result) {
-                    val recipe = document.toObject(Recipe::class.java)
+                for (item in result) {
+                    val recipe = item.toObject(Recipe::class.java)
                     recipesList.add(recipe)
                 }
                 recycler.adapter = RecipeAdapter(recipesList)

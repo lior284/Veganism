@@ -1,6 +1,7 @@
 package com.example.veganism
 
 class Recipe (
+    val id: String = "",
     var name: String = "",
     var description: String = "",
     var chefUsername: String = "",

@@ -18,6 +18,9 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.Veganism">
         <activity
+            android:name=".AddRecipeNextActivity"
+            android:exported="false" />
+        <activity
             android:name=".UserDetailsActivity"
             android:exported="false" />
         <activity

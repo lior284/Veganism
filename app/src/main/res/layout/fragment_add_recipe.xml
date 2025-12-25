@@ -84,14 +84,14 @@
         android:padding="12dp">
 
         <android.widget.Button
-            android:id="@+id/addRecipeFragment_addRecipe_btn"
+            android:id="@+id/addRecipeFragment_next_btn"
             android:layout_width="0dp"
             android:layout_height="48dp"
             android:layout_weight="1"
             android:background="@drawable/bg_button_submit"
-            android:text="Add Recipe"
+            android:text="NEXT"
             android:textColor="@color/secondaryUI"
-            android:fontFamily="@font/quicksand_bold"/>
+            android:fontFamily="@font/quicksand_bold" />
 
 
         <android.widget.Button

@@ -63,7 +63,7 @@ class AddRecipeFragment : Fragment() {
         val etRecipeDescription = view.findViewById<EditText>(R.id.addRecipeFragment_recipeDescription_et)
         ivRecipeImage = view.findViewById<ImageView>(R.id.addRecipeFragment_recipeImage_iv)
         val btnTakePicture = view.findViewById<ImageView>(R.id.addRecipeFragment_takePicture_iv)
-        val btnAddRecipe = view.findViewById<Button>(R.id.addRecipeFragment_addRecipe_btn)
+        val btnNext = view.findViewById<Button>(R.id.addRecipeFragment_next_btn)
         val btnReset = view.findViewById<Button>(R.id.addRecipeFragment_reset_btn)
 
         btnReset.setOnClickListener {
@@ -103,15 +103,17 @@ class AddRecipeFragment : Fragment() {
         }
 
 
-        btnAddRecipe.setOnClickListener {
+        btnNext.setOnClickListener {
+
+            val intent = Intent(requireContext(), AddRecipeNextActivity::class.java)
+
             val store = FirebaseFirestore.getInstance()
 
             val recipe = Recipe(
                 etRecipeName.text.toString(),
                 etRecipeDescription.text.toString(),
                 chefUsername,
-                "",
-                false
+                ""
             )
 
             store.collection("recipes").add(recipe)
