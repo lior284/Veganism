@@ -26,7 +26,7 @@
         android:textSize="19sp" />
 
     <EditText
-        android:id="@+id/addRecipeNext_recipeDescription_et"
+        android:id="@+id/addRecipeNext_recipeInfo_et"
         android:layout_width="match_parent"
         android:layout_height="350dp"
         android:layout_marginTop="20dp"
@@ -55,7 +55,7 @@
             android:layout_marginRight="10dp" />
 
         <EditText
-            android:id="@+id/addRecipeNext_recipeDescription_et"
+            android:id="@+id/addRecipeNext_cookingTime_et"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
@@ -78,7 +78,7 @@
         android:padding="12dp">
 
         <android.widget.Button
-            android:id="@+id/addRecipeFragment_reset_btn"
+            android:id="@+id/addRecipeNext_reset_btn"
             android:layout_width="0dp"
             android:layout_height="48dp"
             android:layout_marginRight="8dp"
@@ -89,7 +89,7 @@
             android:fontFamily="@font/quicksand_bold"/>
 
         <android.widget.Button
-            android:id="@+id/addRecipeFragment_submit_btn"
+            android:id="@+id/addRecipeNext_submit_btn"
             android:layout_width="0dp"
             android:layout_height="48dp"
             android:layout_weight="1"
