@@ -1,6 +1,5 @@
 package com.example.veganism
 
-import android.net.Uri
 import android.os.Bundle
 import android.util.Log
 import android.widget.EditText
@@ -22,7 +21,7 @@ class AddRecipeNextActivity : AppCompatActivity() {
 
     private val model = GenerativeModel(
         modelName = "gemini-2.0-flash",
-        apiKey = "AIzaSyBOEcSEQq3SPDf_STVdR-uhKUHNoWVx4xg"
+        apiKey = "AIzaSyB18o8DlM3ZJd2556VZVFhYrPkdEKUyCxU"
     )
 
     private val chat = model.startChat()
@@ -54,49 +53,48 @@ class AddRecipeNextActivity : AppCompatActivity() {
             var chefUsername = ""
 
             store.collection("users").document(user!!.uid).get()
-                .addOnSuccessListener {
+                 .addOnSuccessListener {
                     chefUsername = it.getString("username").toString()
                 }
 
-            val imageUri = recipeImage!!.toUri()
+//            val imageUri = recipeImage!!.toUri()
 
-            val recipeParts = generateGeminiResponse(etRecipeInfo.text.toString())
+            val geminiRecipe = generateGeminiResponse(etRecipeInfo.text.toString(), etCookingTime.text.toString())
 
-
-            val recipe = Recipe(
-                "",
-                recipeName.toString(),
-                recipeDescription.toString(),
-                chefUsername,
-                "",
-                recipeParts.ingredients,
-                recipeParts.instructions,
-                recipeParts.notes,
-
-            )
-
-            store.collection("recipes").add(recipe)
-                .addOnSuccessListener { documentReference ->
-                    val recipeId = documentReference.id
-                    val storage = FirebaseStorage.getInstance()
-                    storage.getReference("recipes_images/" + recipeId + ".jpg").putFile(imageUri)
-                        .addOnSuccessListener {
-                            documentReference.update("recipeImage", recipeId + ".jpg")
-                                .addOnSuccessListener {
-                                    Toast.makeText(this,"Recipe added successfully",Toast.LENGTH_SHORT).show()
-                                }
-                        }
-                }
-                .addOnFailureListener {
-                    Toast.makeText(this, "Error adding recipe",Toast.LENGTH_SHORT).show()
-                }
-
+//            val recipe = Recipe(
+//                "",
+//                recipeName.toString(),
+//                recipeDescription.toString(),
+//                chefUsername,
+//                "",
+//                geminiRecipe.ingredients,
+//                geminiRecipe.instructions,
+//                geminiRecipe.notes,
+//                geminiRecipe.cookingTime
+//            )
+//
+//            store.collection("recipes").add(recipe)
+//                .addOnSuccessListener { document ->
+//                    val recipeId = document.id
+//                    document.update("id", recipeId)
+//                    val storage = FirebaseStorage.getInstance()
+//                    storage.getReference("recipes_images/$recipeId.jpg").putFile(imageUri)
+//                        .addOnSuccessListener {
+//                            document.update("recipeImage", "$recipeId.jpg")
+//                                .addOnSuccessListener {
+//                                    Toast.makeText(this,"Recipe added successfully",Toast.LENGTH_SHORT).show()
+//                                }
+//                        }
+//                }
+//                .addOnFailureListener {
+//                    Toast.makeText(this, "Error adding recipe",Toast.LENGTH_SHORT).show()
+//                }
 
         }
     }
 
-    private fun generateGeminiResponse(userInput: String): RecipeParts {
-        var recipeParts = RecipeParts("", "", "")
+    private fun generateGeminiResponse(userRecipeInput: String, userTimeInput: String): RecipeParts {
+        var recipeParts = RecipeParts("", "", "", 0)
         lifecycleScope.launch {
             try {
                 var systemPrompt = """
@@ -131,10 +129,7 @@ class AddRecipeNextActivity : AppCompatActivity() {
                     Do not write anything outside these sections.
                 """.trimIndent()
 
-                val fullPrompt = "$systemPrompt\n\nUser input:\n$userInput"
-
-                val sectionsResponse = model.generateContent(fullPrompt)
-                val aiSections = sectionsResponse.text ?: "No response from Gemini."
+                val recipeSectionsResponse = model.generateContent("$systemPrompt\n\nUser input:\n$userRecipeInput").text.toString()
 
                 systemPrompt = """
                     You will be given a single string written by a user that represents a duration of time.
@@ -178,15 +173,15 @@ class AddRecipeNextActivity : AppCompatActivity() {
                     about 45 min -> 45
                     half an hour -> 30
                     2 hours -> 120
-                    90 -> 90
+                    90 -> 90i
                 """.trimIndent()
 
-                val cookingTimeResponse = model.generateContent("Convert the ")
+                val cookingTimeResponse = model.generateContent("$systemPrompt\n\nUser input:\n$userTimeInput").text.toString()
 
 
-                Log.d("GeminiResponse", aiText)
-                recipeParts = parseRecipe(aiText)
-
+                Log.d("GeminiResponseRecipe", recipeSectionsResponse)
+                Log.d("GeminiResponseTime", cookingTimeResponse)
+                recipeParts = parseRecipe(recipeSectionsResponse, cookingTimeResponse)
 
             } catch (e: Exception) {
                 Log.e("GeminiError", e.message ?: "Unknown error")
@@ -201,31 +196,31 @@ class AddRecipeNextActivity : AppCompatActivity() {
         val cookingTime: Int
     )
 
-    fun parseRecipe(aiText: String): RecipeParts {
-        if(aiText == "No response from Gemini.")
+    fun parseRecipe(recipeSectionsResponse: String, cookingTimeResponse: String): RecipeParts {
+        if(recipeSectionsResponse == "No response from Gemini.")
         {
-            return RecipeParts("", "", "")
+            return RecipeParts("", "", "", 0)
         }
 
-        val ingredients = aiText
+        val ingredients = recipeSectionsResponse
             .substringAfter("[[INGREDIENTS]]")
             .substringBefore("[[INSTRUCTIONS]]")
             .trim()
 
-        val instructionsPart = aiText
+        val instructionsPart = recipeSectionsResponse
             .substringAfter("[[INSTRUCTIONS]]")
 
         val instructions = instructionsPart
             .substringBefore("[[NOTES]]", instructionsPart)
             .trim()
 
-        val notes = if (aiText.contains("[[NOTES]]")) {
-            aiText.substringAfter("[[NOTES]]").trim()
+        val notes = if (recipeSectionsResponse.contains("[[NOTES]]")) {
+            recipeSectionsResponse.substringAfter("[[NOTES]]").trim()
         } else {
             ""
         }
 
-        return RecipeParts(ingredients, instructions, notes)
+        return RecipeParts(ingredients, instructions, notes, cookingTimeResponse.toInt())
     }
 
     fun formatWithDots(text: String): String {
