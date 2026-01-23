@@ -11,7 +11,8 @@ import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.storage.FirebaseStorage
 
 class RecipeAdapter(
-    private val list: List<Recipe>
+    private val list: List<Recipe>,
+    private val onItemClick: (Recipe) -> Unit // Lambda for item click
 ) : RecyclerView.Adapter<RecipeAdapter.ViewHolder>() {
 
     private val auth = FirebaseAuth.getInstance()
@@ -49,6 +50,10 @@ class RecipeAdapter(
             .addOnFailureListener {
                 holder.image.setImageResource(R.drawable.img_recipe_item_example)
             }
+
+        holder.itemView.setOnClickListener {
+            onItemClick(recipe)
+        }
 
         // Check if the recipe is already saved in Firestore
         val recipeDocument = db.collection("users").document(userUID).collection("savedRecipes")
