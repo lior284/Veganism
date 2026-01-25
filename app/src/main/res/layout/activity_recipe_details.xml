@@ -4,9 +4,10 @@
     android:id="@+id/main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".RecipeDetailsActivity"
+    android:background="@drawable/bg_page"
     android:orientation="vertical"
-    android:background="@drawable/bg_page">
+    android:transitionName="recipe_background_transition"
+    tools:context=".RecipeDetailsActivity">
 
     <TextView
         android:id="@+id/back"
@@ -19,7 +20,7 @@
         android:fontFamily="@font/quicksand_bold"
         android:gravity="center"
         android:text="BACK"
-        android:textColor="@color/primaryUI"
+        android:textColor="#000000"
         android:textSize="20sp" />
 
     <ScrollView
@@ -37,12 +38,15 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:adjustViewBounds="true"
-                android:src="@drawable/img_recipe_item_example" />
+                android:src="@drawable/img_recipe_item_example"
+                android:transitionName="recipe_image_transition" />
 
             <LinearLayout
+                android:id="@+id/recipeDetails_fadeIn_ll"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:orientation="vertical"
+
                 android:padding="5dp">
 
                 <TextView
@@ -58,6 +62,7 @@
                     android:textColor="#000000"
                     android:textSize="50sp" />
 
+
                 <TextView
                     android:id="@+id/recipeDetails_recipeDescription_tv"
                     android:layout_width="match_parent"
@@ -68,9 +73,9 @@
                     android:textSize="25sp" />
 
                 <TextView
-                    android:layout_marginTop="30dp"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:layout_marginTop="30dp"
                     android:fontFamily="@font/quicksand_bold"
                     android:text="Ingredients:"
                     android:textColor="#000000"
@@ -86,9 +91,9 @@
                     android:textSize="20sp" />
 
                 <TextView
-                    android:layout_marginTop="30dp"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:layout_marginTop="30dp"
                     android:fontFamily="@font/quicksand_bold"
                     android:text="Instructions:"
                     android:textColor="#000000"
@@ -105,9 +110,9 @@
 
                 <TextView
                     android:id="@+id/recipeDetails_recipeNotesTitle_tv"
-                    android:layout_marginTop="30dp"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:layout_marginTop="30dp"
                     android:fontFamily="@font/quicksand_bold"
                     android:text="Notes:"
                     android:textColor="#000000"
@@ -121,8 +126,19 @@
                     android:text="- Note 1\n- Note 2\n- Note 3"
                     android:textColor="#000000"
                     android:textSize="20sp" />
-            </LinearLayout>
 
+                <TextView
+                    android:id="@+id/recipeDetails_recipeChef_tv"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:fontFamily="@font/quicksand_regular"
+                    android:text="Recipe by *username*"
+                    android:textColor="#3025aa"
+                    android:textStyle="italic"
+                    android:textSize="15sp" />
+
+            </LinearLayout>
         </LinearLayout>
     </ScrollView>
 </LinearLayout>

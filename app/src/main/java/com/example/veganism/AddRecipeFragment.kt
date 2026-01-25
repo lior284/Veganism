@@ -78,16 +78,6 @@ class AddRecipeFragment : Fragment() {
             ivRecipeImage.setImageResource(R.drawable.img_recipe_item_example)
         }
 
-        val auth = FirebaseAuth.getInstance()
-        val user = auth.currentUser
-        val db = FirebaseFirestore.getInstance()
-
-        var chefUsername = "Unknown"
-        db.collection("users").document(user!!.uid).get()
-            .addOnSuccessListener {
-                chefUsername = it.getString("username").toString()
-            }
-
         ivRecipeImage.setOnClickListener {
 
             if (ContextCompat.checkSelfPermission(requireContext(), android.Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED) {
@@ -97,7 +87,7 @@ class AddRecipeFragment : Fragment() {
             }
         }
 
-        // After the user pressed V
+        // After the user pressed the confirmation btn
         takePictureLauncher = registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
             if (result.resultCode == Activity.RESULT_OK) {
                 val bitmap = result.data?.extras?.get("data") as? Bitmap
@@ -119,38 +109,10 @@ class AddRecipeFragment : Fragment() {
         btnNext.setOnClickListener {
 
             val intent = Intent(requireContext(), AddRecipeNextActivity::class.java)
-
             intent.putExtra("recipeName", etRecipeName.text.toString())
             intent.putExtra("recipeDescription", etRecipeDescription.text.toString())
             intent.putExtra("recipeImage", imageUri.toString())
             startActivity(intent)
-
-
-//            val store = FirebaseFirestore.getInstance()
-//
-//            val recipe = Recipe(
-//                etRecipeName.text.toString(),
-//                etRecipeDescription.text.toString(),
-//                chefUsername,
-//                ""
-//            )
-//
-//            store.collection("recipes").add(recipe)
-//                .addOnSuccessListener { documentReference ->
-//                    val recipeId = documentReference.id
-//                    val storage = FirebaseStorage.getInstance()
-//                    storage.getReference("recipes_images/" + recipeId + ".jpg").putFile(imageUri)
-//                        .addOnSuccessListener {
-//                            documentReference.update("recipeImage", recipeId + ".jpg")
-//                                .addOnSuccessListener {
-//                                    Toast.makeText(this@AddRecipeFragment.context,"Recipe added successfully",Toast.LENGTH_SHORT).show()
-//                                }
-//                        }
-//                }
-//                .addOnFailureListener {
-//                    Toast.makeText(this@AddRecipeFragment.context, "Error adding recipe",Toast.LENGTH_SHORT).show()
-//                }
-
         }
 
         return view

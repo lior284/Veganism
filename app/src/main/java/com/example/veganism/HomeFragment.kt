@@ -63,10 +63,26 @@ class HomeFragment : Fragment() {
                     val recipe = item.toObject(Recipe::class.java)
                     recipesList.add(recipe)
                 }
-                recycler.adapter = RecipeAdapter(recipesList) { clickedRecipe ->
+                recycler.adapter = RecipeAdapter(recipesList) { clickedRecipe, recipeBackground, recipeImageView ->
                     val intent = Intent(requireContext(), RecipeDetailsActivity::class.java)
-                    intent.putExtra("RECIPE_ID", clickedRecipe.id)
-                    startActivity(intent)
+                    intent.putExtra("recipeId", clickedRecipe.id)
+
+                    // Create pairs of the View and its Transition Name
+                    val pairImage = androidx.core.util.Pair.create<View, String>(
+                        recipeImageView, "recipe_image_transition"
+                    )
+                    val pairBackground = androidx.core.util.Pair.create<View, String>(
+                        recipeBackground, "recipe_background_transition"
+                    )
+
+                    // Pass the pairs into the animation options
+                    val options = androidx.core.app.ActivityOptionsCompat.makeSceneTransitionAnimation(
+                        requireActivity(),
+                        pairImage,
+                        pairBackground
+                    )
+
+                    startActivity(intent, options.toBundle())
                 }
             }
 

@@ -59,13 +59,11 @@ class SigninActivity : AppCompatActivity() {
         val btnSubmit = findViewById<Button>(R.id.signIn_submit_btn)
         btnSubmit.setOnClickListener {
             val allValid = checkAllInputsValid()
-            if (allValid || true) {
+            if (allValid) {
                 val auth = FirebaseAuth.getInstance()
                 auth.signInWithEmailAndPassword(
-//                    etEmail.text.toString(),
-//                    etPassword.text.toString()
-                    "lior1@gmail.com",
-                    "Lior1111!"
+                    etEmail.text.toString(),
+                    etPassword.text.toString()
                 )
                     .addOnCompleteListener(this) { task ->
                         if (task.isSuccessful) {
@@ -168,7 +166,6 @@ class SigninActivity : AppCompatActivity() {
 
             putString("firstName", myUser.firstName)
             putString("lastName", myUser.lastName)
-            putString("username", myUser.username)
             putString("email", etEmail.text.toString())
             putString("userUID", user!!.uid)
         }

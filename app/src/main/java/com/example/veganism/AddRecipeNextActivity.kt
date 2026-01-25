@@ -1,9 +1,12 @@
 package com.example.veganism
 
+import android.content.Intent
 import android.os.Bundle
 import android.util.Log
+import android.view.View
 import android.widget.Button
 import android.widget.EditText
+import android.widget.FrameLayout
 import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
@@ -48,6 +51,7 @@ class AddRecipeNextActivity : AppCompatActivity() {
 
         val submitBtn = findViewById<Button>(R.id.addRecipeNext_submit_btn)
         submitBtn.setOnClickListener {
+            showLoadingOverlay()
             val auth = FirebaseAuth.getInstance()
             val user = auth.currentUser
             val store = FirebaseFirestore.getInstance()
@@ -87,24 +91,33 @@ class AddRecipeNextActivity : AppCompatActivity() {
                                     .addOnSuccessListener {
                                         document.update("recipeImage", "$recipeId.jpg")
                                             .addOnSuccessListener {
-                                                Toast.makeText(
-                                                    this@AddRecipeNextActivity,
-                                                    "Recipe added successfully",
-                                                    Toast.LENGTH_SHORT
-                                                ).show()
+                                                hideLoadingOverlay()
+                                                Toast.makeText(this@AddRecipeNextActivity, "Recipe added successfully", Toast.LENGTH_SHORT).show()
+
+                                                val intent = Intent(this@AddRecipeNextActivity, RecipeDetailsActivity::class.java)
+                                                intent.putExtra("recipeId", recipeId)
+                                                intent.putExtra("fromAddRecipe", true)
+                                                startActivity(intent)
+                                                overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out)
+
+                                                finish()
+                                            }
+                                            .addOnFailureListener {
+                                                hideLoadingOverlay()
+                                                Toast.makeText(this@AddRecipeNextActivity, "Error adding recipe's image", Toast.LENGTH_SHORT).show()
                                             }
                                     }
                             }
                             .addOnFailureListener {
-                                Toast.makeText(
-                                    this@AddRecipeNextActivity,
-                                    "Error adding recipe",
-                                    Toast.LENGTH_SHORT
-                                ).show()
+                                hideLoadingOverlay()
+                                Toast.makeText(this@AddRecipeNextActivity, "Error adding recipe", Toast.LENGTH_SHORT).show()
                             }
 
                     }
-
+                }
+                .addOnFailureListener {
+                    hideLoadingOverlay()
+                    Toast.makeText(this, "Error adding recipe", Toast.LENGTH_LONG).show()
                 }
         }
     }
@@ -241,7 +254,6 @@ class AddRecipeNextActivity : AppCompatActivity() {
             .joinToString("\n") { "• $it" }
     }
 
-
     fun formatWithNumbers(text: String): String {
         return text
             .lines()
@@ -250,5 +262,13 @@ class AddRecipeNextActivity : AppCompatActivity() {
                 "${index + 1}. $line"
             }
             .joinToString("\n")
+    }
+
+    fun showLoadingOverlay() {
+        findViewById<FrameLayout>(R.id.addRecipeNext_loadingOverlay_fl).visibility = View.VISIBLE
+    }
+
+    fun hideLoadingOverlay() {
+        findViewById<FrameLayout>(R.id.addRecipeNext_loadingOverlay_fl).visibility = View.GONE
     }
 }
