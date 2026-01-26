@@ -166,7 +166,6 @@ class SigninActivity : AppCompatActivity() {
 
             putString("firstName", myUser.firstName)
             putString("lastName", myUser.lastName)
-            putString("username", myUser.username)
             putString("email", etEmail.text.toString())
             putString("userUID", user!!.uid)
         }

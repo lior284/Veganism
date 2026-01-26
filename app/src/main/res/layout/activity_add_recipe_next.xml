@@ -1,0 +1,122 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/main"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".AddRecipeNextActivity">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:padding="15dp"
+        android:background="@drawable/bg_page">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/quicksand_bold"
+            android:text="Add Recipe"
+            android:textColor="#000000"
+            android:textSize="60sp" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/quicksand_regular"
+            android:text="Now it's time for the recipe itself. Fill up the text box with the recipe name, ingredients, instructions, and any other relevant information."
+            android:textColor="#000000"
+            android:textSize="19sp" />
+
+        <EditText
+            android:id="@+id/addRecipeNext_recipeInfo_et"
+            android:layout_width="match_parent"
+            android:layout_height="350dp"
+            android:layout_marginTop="20dp"
+            android:background="@drawable/bg_card"
+            android:fontFamily="@font/quicksand_regular"
+            android:gravity="top"
+            android:hint="For example:\n\nFor this recipe you need 1kg of flour, two cups of water....\n\nFirst mix the flour and the water for 7min, then let it rest for 30min...."
+            android:padding="12dp"
+            android:textColor="@color/primaryUI"
+            android:textSize="20dp" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:gravity="center"
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginRight="10dp"
+                android:fontFamily="@font/quicksand_medium"
+                android:text="Total Cooking Time:"
+                android:textColor="#000000"
+                android:textSize="22sp" />
+
+            <EditText
+                android:id="@+id/addRecipeNext_cookingTime_et"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:background="@drawable/bg_card"
+                android:fontFamily="@font/quicksand_regular"
+                android:gravity="top"
+                android:hint="E.g., 2:15"
+                android:padding="12dp"
+                android:textColor="@color/primaryUI"
+                android:textSize="20dp" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:background="@drawable/bg_card"
+            android:gravity="center"
+            android:orientation="horizontal"
+            android:padding="12dp">
+
+            <android.widget.Button
+                android:id="@+id/addRecipeNext_reset_btn"
+                android:layout_width="0dp"
+                android:layout_height="48dp"
+                android:layout_marginRight="8dp"
+                android:layout_weight="1"
+                android:background="@drawable/bg_button_reset"
+                android:fontFamily="@font/quicksand_bold"
+                android:text="RESET"
+                android:textColor="@color/secondaryUI" />
+
+            <android.widget.Button
+                android:id="@+id/addRecipeNext_submit_btn"
+                android:layout_width="0dp"
+                android:layout_height="48dp"
+                android:layout_weight="1"
+                android:background="@drawable/bg_button_submit"
+                android:fontFamily="@font/quicksand_bold"
+                android:text="SUBMIT"
+                android:textColor="@color/secondaryUI" />
+        </LinearLayout>
+
+    </LinearLayout>
+
+    <FrameLayout
+        android:id="@+id/addRecipeNext_loadingOverlay_fl"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="#80000000"
+        android:clickable="true"
+        android:focusable="true"
+        android:visibility="gone">
+
+        <ProgressBar
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center" />
+    </FrameLayout>
+</FrameLayout>

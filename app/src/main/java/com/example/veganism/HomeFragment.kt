@@ -1,5 +1,6 @@
 package com.example.veganism
 
+import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import androidx.fragment.app.Fragment
@@ -56,14 +57,33 @@ class HomeFragment : Fragment() {
         val db = Firebase.firestore
         val recipesList: MutableList<Recipe> = mutableListOf()
 
-        db.collection("recipes")
-            .get()
+        db.collection("recipes").get()
             .addOnSuccessListener { result ->
-                for (document in result) {
-                    val recipe = document.toObject(Recipe::class.java)
+                for (item in result) {
+                    val recipe = item.toObject(Recipe::class.java)
                     recipesList.add(recipe)
                 }
-                recycler.adapter = RecipeAdapter(recipesList)
+                recycler.adapter = RecipeAdapter(recipesList, RecipeAdapterMode.HOME) { clickedRecipe, recipeBackground, recipeImageView ->
+                    val intent = Intent(requireContext(), RecipeDetailsActivity::class.java)
+                    intent.putExtra("recipeId", clickedRecipe.id)
+
+                    // Create pairs of the View and its Transition Name
+                    val pairImage = androidx.core.util.Pair.create<View, String>(
+                        recipeImageView, "recipe_image_transition"
+                    )
+                    val pairBackground = androidx.core.util.Pair.create<View, String>(
+                        recipeBackground, "recipe_background_transition"
+                    )
+
+                    // Pass the pairs into the animation options
+                    val options = androidx.core.app.ActivityOptionsCompat.makeSceneTransitionAnimation(
+                        requireActivity(),
+                        pairImage,
+                        pairBackground
+                    )
+
+                    startActivity(intent, options.toBundle())
+                }
             }
 
         return view

@@ -5,6 +5,8 @@ import android.app.Activity
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.graphics.Bitmap
+import android.graphics.Color
+import android.graphics.drawable.GradientDrawable
 import android.net.Uri
 import android.os.Bundle
 import android.provider.MediaStore
@@ -18,6 +20,7 @@ import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
+import androidx.core.graphics.toColorInt
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.storage.FirebaseStorage
@@ -47,9 +50,13 @@ class AddRecipeFragment : Fragment() {
         }
     }
 
+    private lateinit var etRecipeName: EditText
+    private lateinit var etRecipeDescription: EditText
     private lateinit var takePictureLauncher: ActivityResultLauncher<Intent>
     private lateinit var imageUri: Uri
     private lateinit var ivRecipeImage: ImageView
+
+    private var invalidFields: String = ""
 
     @SuppressLint("MissingInflatedId")
     override fun onCreateView(
@@ -59,11 +66,10 @@ class AddRecipeFragment : Fragment() {
         // Inflate the layout for this fragment
         val view = inflater.inflate(R.layout.fragment_add_recipe, container, false)
 
-        val etRecipeName = view.findViewById<EditText>(R.id.addRecipeFragment_recipeName_et)
-        val etRecipeDescription = view.findViewById<EditText>(R.id.addRecipeFragment_recipeDescription_et)
+        etRecipeName = view.findViewById<EditText>(R.id.addRecipeFragment_recipeName_et)
+        etRecipeDescription = view.findViewById<EditText>(R.id.addRecipeFragment_recipeDescription_et)
         ivRecipeImage = view.findViewById<ImageView>(R.id.addRecipeFragment_recipeImage_iv)
-        val btnTakePicture = view.findViewById<ImageView>(R.id.addRecipeFragment_takePicture_iv)
-        val btnAddRecipe = view.findViewById<Button>(R.id.addRecipeFragment_addRecipe_btn)
+        val btnNext = view.findViewById<Button>(R.id.addRecipeFragment_next_btn)
         val btnReset = view.findViewById<Button>(R.id.addRecipeFragment_reset_btn)
 
         btnReset.setOnClickListener {
@@ -72,17 +78,7 @@ class AddRecipeFragment : Fragment() {
             ivRecipeImage.setImageResource(R.drawable.img_recipe_item_example)
         }
 
-        val auth = FirebaseAuth.getInstance()
-        val user = auth.currentUser
-        val db = FirebaseFirestore.getInstance()
-
-        var chefUsername = "Unknown"
-        db.collection("users").document(user!!.uid).get()
-            .addOnSuccessListener {
-                chefUsername = it.getString("username").toString()
-            }
-
-        btnTakePicture.setOnClickListener {
+        ivRecipeImage.setOnClickListener {
 
             if (ContextCompat.checkSelfPermission(requireContext(), android.Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED) {
                 requestPermissions(arrayOf(android.Manifest.permission.CAMERA), 101)
@@ -91,7 +87,7 @@ class AddRecipeFragment : Fragment() {
             }
         }
 
-        // After the user pressed V
+        // After the user pressed the confirmation btn
         takePictureLauncher = registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
             if (result.resultCode == Activity.RESULT_OK) {
                 val bitmap = result.data?.extras?.get("data") as? Bitmap
@@ -102,34 +98,21 @@ class AddRecipeFragment : Fragment() {
             }
         }
 
+        btnReset.setOnClickListener {
+            etRecipeName.text.clear()
+            etRecipeDescription.text.clear()
+            ivRecipeImage.setImageResource(R.drawable.img_recipe_item_example)
+            imageUri = Uri.EMPTY
+        }
 
-        btnAddRecipe.setOnClickListener {
-            val store = FirebaseFirestore.getInstance()
 
-            val recipe = Recipe(
-                etRecipeName.text.toString(),
-                etRecipeDescription.text.toString(),
-                chefUsername,
-                "",
-                false
-            )
+        btnNext.setOnClickListener {
 
-            store.collection("recipes").add(recipe)
-                .addOnSuccessListener { documentReference ->
-                    val recipeId = documentReference.id
-                    val storage = FirebaseStorage.getInstance()
-                    storage.getReference("recipes_images/" + recipeId + ".jpg").putFile(imageUri)
-                        .addOnSuccessListener {
-                            documentReference.update("recipeImage", recipeId + ".jpg")
-                                .addOnSuccessListener {
-                                    Toast.makeText(this@AddRecipeFragment.context,"Recipe added successfully",Toast.LENGTH_SHORT).show()
-                                }
-                        }
-                }
-                .addOnFailureListener {
-                    Toast.makeText(this@AddRecipeFragment.context, "Error adding recipe",Toast.LENGTH_SHORT).show()
-                }
-
+            val intent = Intent(requireContext(), AddRecipeNextActivity::class.java)
+            intent.putExtra("recipeName", etRecipeName.text.toString())
+            intent.putExtra("recipeDescription", etRecipeDescription.text.toString())
+            intent.putExtra("recipeImage", imageUri.toString())
+            startActivity(intent)
         }
 
         return view
@@ -142,6 +125,7 @@ class AddRecipeFragment : Fragment() {
         }
         return Uri.fromFile(file)
     }
+
     override fun onRequestPermissionsResult(
         requestCode: Int,
         permissions: Array<out String>,
@@ -160,6 +144,51 @@ class AddRecipeFragment : Fragment() {
         val intent = Intent(MediaStore.ACTION_IMAGE_CAPTURE)
         takePictureLauncher.launch(intent)
     }
+
+    private fun checkAllInputsValid(): Boolean {
+        var allValid = true
+
+        var curValid = !etRecipeName.text.isNullOrEmpty() && etRecipeName.text.length >= 3
+        if (!curValid)
+        {
+            allValid = false
+            invalidFields += " Recipe Name,"
+        }
+        setErrorOutline(etRecipeName, curValid)
+
+        curValid = !etRecipeDescription.text.isNullOrEmpty() && etRecipeDescription.text.length >= 3
+        if (!curValid)
+        {
+            allValid = false
+            invalidFields += " Recipe Description,"
+        }
+        setErrorOutline(etRecipeDescription, curValid)
+
+        curValid = imageUri != Uri.EMPTY
+        if (!curValid)
+        {
+            allValid = false
+            invalidFields += " Recipe Image,"
+        }
+        setErrorOutline(ivRecipeImage, curValid)
+
+
+        if(invalidFields != "")
+        {
+            invalidFields = invalidFields.substring(0, invalidFields.length-1)
+        }
+
+        return allValid
+    }
+    private fun setErrorOutline(view: View, isValid: Boolean) {
+        val drawable = view.background as GradientDrawable
+        if (!isValid) {
+            drawable.setStroke(3, Color.RED)
+        } else {
+            drawable.setStroke(1, "#DDDDDD".toColorInt())
+        }
+    }
+
 
     companion object {
         /**
