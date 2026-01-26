@@ -22,7 +22,7 @@ class RecipeDetailsActivity : AppCompatActivity() {
         val isFromAddRecipe = intent.getBooleanExtra("fromAddRecipe", false)
 
         if (!isFromAddRecipe) {
-            supportPostponeEnterTransition() // Only postpone if we expect a shared element
+            supportPostponeEnterTransition() // Only postpone if the user came from the list of recipes and not from the add recipe
         }
 
         setContentView(R.layout.activity_recipe_details)
@@ -98,9 +98,9 @@ class RecipeDetailsActivity : AppCompatActivity() {
 
                                     // 2. Animate it slowly to its original position (translationY = 0)
                                     recipeFadeIn.animate()
-                                        .translationY(0f)      // Move up to its natural spot
-                                        .alpha(1f)             // Fade in
-                                        .setDuration(500)     // 1000ms = 1 second (Change this for speed)
+                                        .translationY(0f) // Move up to its natural spot
+                                        .alpha(1f) // Fade in
+                                        .setDuration(500)
                                         .setInterpolator(android.view.animation.DecelerateInterpolator())
                                         .start()
 

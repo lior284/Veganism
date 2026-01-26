@@ -21,6 +21,7 @@ import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatDelegate
 import androidx.appcompat.widget.SwitchCompat
 import androidx.core.content.ContextCompat
+import com.bumptech.glide.Glide
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.storage.FirebaseStorage
@@ -67,6 +68,7 @@ class ProfileFragment : Fragment() {
         val ivProfilePicture = view.findViewById<ImageView>(R.id.profileFragment_profilePicture_iv)
 
         val tvUserDetails = view.findViewById<TextView>(R.id.profileFragment_userDetails_tv)
+        val tvSavedRecipes = view.findViewById<TextView>(R.id.profileFragment_savedRecipes_tv)
         val scDarkMode = view.findViewById<SwitchCompat>(R.id.profileFragment_darkMode_sc)
         val tvNotifications = view.findViewById<TextView>(R.id.profileFragment_notifications_tv)
         val tvHelpAndContact = view.findViewById<TextView>(R.id.profileFragment_helpAndContact_tv)
@@ -76,9 +78,16 @@ class ProfileFragment : Fragment() {
         if (savedBase64 != null) {
             val bytes = android.util.Base64.decode(savedBase64, android.util.Base64.DEFAULT)
             val bitmap = android.graphics.BitmapFactory.decodeByteArray(bytes, 0, bytes.size)
-            ivProfilePicture.setImageBitmap(bitmap)
+
+            Glide.with(this)
+                .load(bitmap)
+                .circleCrop()
+                .into(ivProfilePicture)
         } else {
-            ivProfilePicture.setImageResource(R.drawable.img_take_profile_picture)
+            Glide.with(this)
+                .load(R.drawable.img_take_profile_picture)
+                .circleCrop()
+                .into(ivProfilePicture)
         }
         ivProfilePicture.setOnClickListener {
             if (ContextCompat.checkSelfPermission(
@@ -96,7 +105,10 @@ class ProfileFragment : Fragment() {
                     val bitmap = result.data?.extras?.get("data") as? Bitmap
                     bitmap?.let { bmp ->
                         // After the user confirmed the picture
-                        ivProfilePicture.setImageBitmap(bmp)
+                        Glide.with(this)
+                            .load(bmp)
+                            .circleCrop()
+                            .into(ivProfilePicture)
                         val imageUri = saveBitmapToTempFile(bmp)
 
                         (requireContext() as MenuActivity).showLoadingOverlayOnMenu()
@@ -126,12 +138,6 @@ class ProfileFragment : Fragment() {
                                     android.util.Base64.DEFAULT
                                 )
                                 prefs.edit().putString("profilePicture", base64).apply()
-
-                                Toast.makeText(
-                                    requireContext(),
-                                    "Profile picture updated!",
-                                    Toast.LENGTH_SHORT
-                                ).show()
                                 (requireContext() as MenuActivity).hideLoadingOverlayOnMenu()
                             }
                             .addOnFailureListener {
@@ -159,6 +165,10 @@ class ProfileFragment : Fragment() {
 
         tvUserDetails.setOnClickListener {
             startActivity(Intent(requireContext(), UserDetailsActivity::class.java))
+        }
+
+        tvSavedRecipes.setOnClickListener {
+            startActivity(Intent(requireContext(), SavedRecipesActivity::class.java))
         }
 
         scDarkMode.setOnCheckedChangeListener { _, isChecked ->

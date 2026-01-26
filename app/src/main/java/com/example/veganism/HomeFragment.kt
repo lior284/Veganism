@@ -63,7 +63,7 @@ class HomeFragment : Fragment() {
                     val recipe = item.toObject(Recipe::class.java)
                     recipesList.add(recipe)
                 }
-                recycler.adapter = RecipeAdapter(recipesList) { clickedRecipe, recipeBackground, recipeImageView ->
+                recycler.adapter = RecipeAdapter(recipesList, RecipeAdapterMode.HOME) { clickedRecipe, recipeBackground, recipeImageView ->
                     val intent = Intent(requireContext(), RecipeDetailsActivity::class.java)
                     intent.putExtra("recipeId", clickedRecipe.id)
 

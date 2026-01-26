@@ -133,7 +133,7 @@
                     android:layout_height="wrap_content"
                     android:gravity="center"
                     android:fontFamily="@font/quicksand_regular"
-                    android:text="Recipe by *username*"
+                    android:text="Recipe by &lt;username&gt;"
                     android:textColor="#3025aa"
                     android:textStyle="italic"
                     android:textSize="15sp" />

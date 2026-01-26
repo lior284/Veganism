@@ -23,9 +23,7 @@
         android:layout_height="100dp"
         android:layout_gravity="center_horizontal"
         android:layout_marginTop="15dp"
-        android:background="@drawable/bg_profile_image"
         android:clickable="true"
-        android:clipToOutline="true"
         android:scaleType="centerCrop"
         android:src="@drawable/img_take_profile_picture" />
 
@@ -68,6 +66,25 @@
             android:textColor="@color/primaryUI"
             android:textSize="25sp"
             android:drawableLeft="@drawable/ic_user_details"
+            android:drawableRight="@drawable/ic_arrow_right"
+            android:drawablePadding="15dp"
+            android:clickable="true" />
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="@color/primaryUI" />
+
+        <TextView
+            android:id="@+id/profileFragment_savedRecipes_tv"
+            android:layout_width="match_parent"
+            android:layout_height="60dp"
+            android:gravity="center_vertical"
+            android:fontFamily="@font/quicksand_regular"
+            android:text="Saved Recipes"
+            android:textColor="@color/primaryUI"
+            android:textSize="25sp"
+            android:drawableLeft="@drawable/ic_bookmark_unsaved"
             android:drawableRight="@drawable/ic_arrow_right"
             android:drawablePadding="15dp"
             android:clickable="true" />
