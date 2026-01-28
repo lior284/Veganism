@@ -73,6 +73,17 @@
                     android:textSize="25sp" />
 
                 <TextView
+                    android:id="@+id/recipeDetails_recipeTime_tv"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="30dp"
+                    android:fontFamily="@font/quicksand_semibold"
+                    android:text="Total cooking time: "
+                    android:textColor="#000000"
+                    android:textSize="25sp" />
+
+
+                <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="30dp"
@@ -128,15 +139,25 @@
                     android:textSize="20sp" />
 
                 <TextView
+                    android:id="@+id/recipeDetails_suggestedTimer_tv"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="30dp"
+                    android:fontFamily="@font/quicksand_semibold"
+                    android:text="Suggested timer: "
+                    android:textColor="#000000"
+                    android:textSize="20sp" />
+
+                <TextView
                     android:id="@+id/recipeDetails_recipeChef_tv"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:gravity="center"
                     android:fontFamily="@font/quicksand_regular"
+                    android:gravity="center"
                     android:text="Recipe by &lt;username&gt;"
                     android:textColor="#3025aa"
-                    android:textStyle="italic"
-                    android:textSize="15sp" />
+                    android:textSize="15sp"
+                    android:textStyle="italic" />
 
             </LinearLayout>
         </LinearLayout>

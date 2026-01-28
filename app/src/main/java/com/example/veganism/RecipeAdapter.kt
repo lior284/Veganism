@@ -6,6 +6,8 @@ import android.view.ViewGroup
 import android.widget.*
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
+import com.bumptech.glide.load.resource.bitmap.RoundedCorners
+import com.bumptech.glide.request.RequestOptions
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.storage.FirebaseStorage
@@ -45,8 +47,13 @@ class RecipeAdapter(
         storage.getReference("recipes_images/${recipe.recipeImage}").downloadUrl
             .addOnSuccessListener { uri ->
                 if (!holder.itemView.isAttachedToWindow) return@addOnSuccessListener
+
+                val radiusDp = 16
+                val radiusPx = (radiusDp * holder.image.resources.displayMetrics.density).toInt()
+
                 Glide.with(holder.image)
                     .load(uri)
+                    .transform(RoundedCorners(radiusPx))
                     .into(holder.image)
             }
             .addOnFailureListener {
@@ -99,7 +106,6 @@ class RecipeAdapter(
                         updateBookmarkIcon(holder, true)
                         recipe.savesCount++
                         holder.savesCount.text = recipe.savesCount.toString()
-                        notifyItemChanged(holder.adapterPosition)
                         val db = FirebaseFirestore.getInstance()
                         db.collection("recipes").document(recipe.id)
                             .update("savesCount", recipe.savesCount)

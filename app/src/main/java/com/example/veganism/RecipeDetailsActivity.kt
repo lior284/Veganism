@@ -2,6 +2,9 @@ package com.example.veganism
 
 import android.content.Intent
 import android.os.Bundle
+import android.text.SpannableString
+import android.text.SpannableStringBuilder
+import android.text.style.LeadingMarginSpan
 import android.view.View
 import android.widget.ImageView
 import android.widget.LinearLayout
@@ -51,10 +54,12 @@ class RecipeDetailsActivity : AppCompatActivity() {
         val recipeImage = findViewById<ImageView>(R.id.recipeDetails_recipeImage_iv)
         val recipeName = findViewById<TextView>(R.id.recipeDetails_recipeName_tv)
         val recipeDescription = findViewById<TextView>(R.id.recipeDetails_recipeDescription_tv)
+        val recipeTime = findViewById<TextView>(R.id.recipeDetails_recipeTime_tv)
         val recipeIngredients = findViewById<TextView>(R.id.recipeDetails_recipeIngredients_tv)
         val recipeInstructions = findViewById<TextView>(R.id.recipeDetails_recipeInstructions_tv)
         val recipeNotesTitle = findViewById<TextView>(R.id.recipeDetails_recipeNotesTitle_tv)
         val recipeNotes = findViewById<TextView>(R.id.recipeDetails_recipeNotes_tv)
+        val recipeSuggestedTimer = findViewById<TextView>(R.id.recipeDetails_suggestedTimer_tv)
         val recipeChef = findViewById<TextView>(R.id.recipeDetails_recipeChef_tv)
 
 
@@ -115,8 +120,16 @@ class RecipeDetailsActivity : AppCompatActivity() {
 
                 recipeName.text = it.getString("name")
                 recipeDescription.text = it.getString("description")
-                recipeIngredients.text = it.get("ingredients").toString()
-                recipeInstructions.text = it.get("instructions").toString()
+                val totalCookingTime = (it.get("cookingTimeMinutes") ?: "0").toString().toInt()
+                val hours = totalCookingTime / 60
+                val minutes = totalCookingTime % 60
+                if(hours == 0) {
+                    recipeTime.text = "Total cooking time: $minutes min"
+                } else {
+                    recipeTime.text = "Total cooking time: $hours h $minutes min"
+                }
+                recipeIngredients.text = createBulletedList((it.get("ingredients") ?: "Empty").toString())
+                recipeInstructions.text = createNumberedList((it.get("instructions") ?: "Empty").toString())
 
                 val notes = it.get("notes").toString()
                 if (notes == "") {
@@ -128,10 +141,56 @@ class RecipeDetailsActivity : AppCompatActivity() {
                     recipeNotes.text = it.get("notes").toString()
                 }
 
+                recipeSuggestedTimer.text = "Suggested timer: ${it.get("timerMinutes")} min"
+
                 recipeChef.text = "Recipe by ${it.getString("chefUsername")}"
             }
             .addOnFailureListener {
                 // Handle failure
             }
+    }
+    fun createBulletedList(text: String, bulletMargin: Int = 30): SpannableStringBuilder {
+        val lines = text.lines().filter { it.isNotBlank() }
+        val result = SpannableStringBuilder()
+
+        for (line in lines) {
+            val bullet = "• "
+            val fullLine = bullet + line.trim() + "\n"
+            val spannable = SpannableString(fullLine)
+
+            // Hanging indent: first line = 0, wrapped lines = bulletMargin
+            spannable.setSpan(
+                LeadingMarginSpan.Standard(0, bulletMargin),
+                0,
+                fullLine.length,
+                0
+            )
+
+            result.append(spannable)
+        }
+
+        return result
+    }
+    fun createNumberedList(text: String, numberMargin: Int = 50): SpannableStringBuilder {
+        val lines = text.lines().filter { it.isNotBlank() }
+        val result = SpannableStringBuilder()
+
+        for ((index, line) in lines.withIndex()) {
+            val number = "${index + 1}. "
+            val fullLine = number + line.trim() + "\n"
+            val spannable = SpannableString(fullLine)
+
+            // Hanging indent: first line = 0, wrapped lines = numberMargin
+            spannable.setSpan(
+                LeadingMarginSpan.Standard(0, numberMargin),
+                0,
+                fullLine.length,
+                0
+            )
+
+            result.append(spannable)
+        }
+
+        return result
     }
 }
